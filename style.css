@@ -1,0 +1,26 @@
+.center {
+    margin:  auto;
+    text-align: center;
+}
+
+.left {
+    text-align: left;
+}
+.right {
+    text-align: right;
+}
+
+.row {
+    display: flex;
+
+  }
+  .column {
+    flex: right;
+    padding: 0px;
+    margin: 0px;
+  }
+  .column_small {
+    flex: left;
+    padding: 0px;
+    margin: 0px;
+  }
