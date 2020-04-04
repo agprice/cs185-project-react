@@ -1,28 +1,9 @@
-
-
-.center {
-    margin:  auto;
-    text-align: center;
+.background-javascript {
+    background-image: url('src/javascript.jpg');
+    background-repeat: repeat;
 }
 
-.left {
-    text-align: left;
+.background-rounded {
+    border: 10px solid rgb(52, 58, 64);
+    border-radius: 25px;
 }
-.right {
-    text-align: right;
-    vertical-align: bottom;
-}
-
-.row {
-    display: flex;
-  }
-  .column {
-    flex: right;
-    justify-content: center;
-    align-items: center;
-    padding: 0px;
-  }
-
-  .reading_text {
-    background-color: rgba(0,0,0,0.03);
-  }
