@@ -6,16 +6,84 @@
         CS185 Class Project
     </title>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
-    <!-- Setup headers for bootstrap CSS -->
+    <!-- Setup headers for W3 CSS -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="stylesheet" href="css/w3.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
 </head>
 
-<body>
-    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center background-javascript background-rounded">
+<style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: "Montserrat", sans-serif
+    }
+    
+    .w3-row-padding img {
+        margin-bottom: 12px
+    }
+    /* Set the width of the sidebar to 120px */
+    
+    .w3-sidebar {
+        width: 120px;
+        background: #222;
+    }
+    /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+    
+    #main {
+        margin-left: 120px
+    }
+    /* Remove margins from "page content" on small screens */
+    
+    @media only screen and (max-width: 600px) {
+        #main {
+            margin-left: 0
+        }
+    }
+</style>
+
+<body class="w3-black">
+    <!-- Main side navigation bar. Hidden on smaller screens -->
+    <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+        <img src="/w3images/avatar_smoke.jpg" style="width:100%">
+        <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-home w3-xxlarge"></i>
+            <p>Home</p>
+        </a>
+        <a href="portfolio.html" class="w3-bar-item w3-button w3-badding-large w3-hover-black">
+            <i class="fa fa-folder-open w3-xxlarge"></i>
+            <p>Portfolio</p>
+        </a>
+        <a href="experience.html" class="w3-bar-item w3-button w3-badding-large w3-hover-black">
+            <i class="fa fa-briefcase w3-xxlarge"></i>
+            <p>Experience</p>
+        </a>
+        <!-- <div class="w3-dropdown-hover w3-hover-black">
+            <i class="fa fa-home w3-xxlarge"></i>
+            <p>Portfolio</p>
+            <div class="w3-dropdown-content w3-gray">
+                <a href="#" class="w3-bar-item w3-button w3-hover-dark-gray">Link</a>
+            </div>
+        </div> -->
+    </nav>
+
+    <!-- Small size navigation for mobile -->
+    <div class="w3-top w3-hide-large w3-hide-medium" id="smallNavbar">
+        <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+            <a href="index.html" class="w3-bar-item w3-button" style="width:33% !important">HOME</a>
+            <a href="portfolio.html" class="w3-bar-item w3-button" style="width:33% !important">PORTFOLIO</a>
+            <a href="experience.html" class="w3-bar-item w3-button" style="width:33% !important">EXPERIENCE</a>
+        </div>
+    </div>
+
+    <!-- <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center background-javascript background-rounded">
         <div class="col-md-5 p-lg-5 mx-auto my-5 bg-light background-rounded">
             <h1 class="display-5 font-weight-bold">Local Programming Pandemic as Javascript Sweeps the Nation</h1>
             <p class="lead font-weight-normal">Javascript has gripped the nation with its questionable programming strategies. It's unknown if the web will ever recover at this time.</p>
@@ -34,6 +102,7 @@
             </div>
         </div>
     </div>
+</body> -->
 </body>
 
 </html>
