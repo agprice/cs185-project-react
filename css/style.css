@@ -1,12 +1,17 @@
-.background-javascript {
-    background-image: url('../src/javascript.jpg');
-    background-repeat: repeat;
+#backgroundVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
 }
 
-.background-rounded {
-    border: 10px solid rgb(52, 58, 64);
-    border-radius: 25px;
+.backgroundOverlay {
+    position: relative;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.8);
 }
+
 /* Set the font families for the pages */
 body, h1, h2, h3, h4, h5, h6 {
     font-family: "Montserrat", sans-serif
