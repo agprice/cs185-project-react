@@ -5,33 +5,90 @@
     <title>
         CS185 Class Project
     </title>
-    <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
-    <!-- Setup headers for bootstrap CSS -->
+    <!-- Setup headers for W3 CSS -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    </link>
+    <link rel="stylesheet" href="css/w3.css">
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
 
-<body>
-    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center background-javascript background-rounded">
-        <div class="col-md-5 p-lg-5 mx-auto my-5 bg-light background-rounded">
-            <h1 class="display-5 font-weight-bold">Local Programming Pandemic as Javascript Sweeps the Nation</h1>
-            <p class="lead font-weight-normal">Javascript has gripped the nation with its questionable programming strategies. It's unknown if the web will ever recover at this time.</p>
-            <a class="btn btn-outline-secondary" href="https://youtu.be/2pL28CcEijU?t=364">Learn More</a>
+<body class="w3-black">
+    <!-- Main side navigation bar. Hidden on smaller screens -->
+    <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+        <img src="img/home-icon.png" style="width:100%">
+        <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-home w3-xxlarge"></i>
+            <p>Home</p>
+        </a>
+        <hr class="sidebar">
+        <a href="portfolio.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-folder-open w3-xxlarge"></i>
+            <p>Portfolio</p>
+        </a>
+        <a href="images.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-file-image-o w3-xxlarge"></i>
+            <p>Images</p>
+        </a>
+        <a href="videos.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-video-camera w3-xxlarge"></i>
+            <p>Videos</p>
+        </a>
+    </nav>
+
+    <!-- Small size navigation for mobile -->
+    <div class="w3-top w3-hide-large w3-hide-medium" id="smallNavbar">
+        <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+            <a href="index.html" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
+            <a href="portfolio.html" class="w3-bar-item w3-button" style="width:25% !important">PORTFOLIO</a>
+            <a href="images.html" class="w3-bar-item w3-button" style="width:25% !important">IMAGES</a>
+            <a href="videos.html" class="w3-bar-item w3-button" style="width:25% !important">VIDEOS</a>
         </div>
     </div>
 
-    <div class="m-md-3 bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden background-rounded">
-        <div class="my-3 py-3">
-            <h2 class="display-5">Journalists have Uncovered Shocking Syntax</h2>
-            <p class="lead">Somehow it's worse than expected.</p>
-        </div>
-        <div class="bg-light box-shadow mx-auto" style="width: 80%; border-radius: 21px 21px 0 0;">
-            <div class="column center" style="width: 100%;">
-                <img src="src/javascript-IRL.jpg" alt="A scared web developer">
+    <!-- Page Body -->
+    <div class="w3-padding-large" id="main">
+        <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
+            <h1 class="w3-jumbo">Andrew Price</h1>
+            <p>Computer Science Professional</p>
+        </header>
+
+
+        <!-- About me Intro Section -->
+        <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+            <h2 class="w3-text-light-grey">About Me</h2>
+            <hr style="width:300px" class="separator w3-opacity">
+            <p>I'm a computer science student studying at UCSB. This website is a small portfolio showing projects I've
+                worked on and work experience that I've been involved with. Before transitioning to Computer
+                Science, I was an animation and gaming major. It was while doing game design that I found my deep love
+                of
+                computer
+                science and software devlopment. I've worked on several game projects which you can take a look at under
+                the portfolio section of this website, along with some Android development and web development.
+            </p>
+            <h2 class="w3-padding-16 w3-text-light-grey">My Skills</h2>
+            <div>
+                <h4 class="w3-wide w3-center">Software Engineering</h4>
+                <p class="w3-wide w3-text w3-center" style="padding-top:-10px;">
+                    Desktop Development - Database Interactions - Backend Development
+                </p>
+            </div>
+            <hr class="w3-opacity">
+            <div>
+                <h4 class="w3-wide w3-center">Mobile Development</h4>
+                <p class="w3-wide w3-text w3-center" style="padding-top:-10px;">
+                    Android Experience - Database and Google API Integration - Front and backend Experience
+                </p>
+            </div>
+
+            <hr class="w3-opacity">
+            <div>
+                <h4 class="w3-wide w3-center">Mobile Development</h4>
+                <p class="w3-wide w3-text w3-center" style="padding-top:-10px;">
+                    Android Experience - Database and Google API Integration - Front and backend Experience
+                </p>
             </div>
         </div>
     </div>

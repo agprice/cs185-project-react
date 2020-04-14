@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        CS185 Class Project
+    </title>
+    <!-- Setup headers for W3 CSS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="css/w3.css">
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+
+<body class="w3-black">
+    <!-- Main side navigation bar. Hidden on smaller screens -->
+    <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+        <img src="img/home-icon.png" style="width:100%">
+        <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-home w3-xxlarge"></i>
+            <p>Home</p>
+        </a>
+        <hr class="sidebar">
+        <a href="portfolio.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-folder-open w3-xxlarge"></i>
+            <p>Portfolio</p>
+        </a>
+        <a href="images.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-file-image-o w3-xxlarge"></i>
+            <p>Images</p>
+        </a>
+        <a href="videos.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+            <i class="fa fa-video-camera w3-xxlarge"></i>
+            <p>Videos</p>
+        </a>
+    </nav>
+
+    <!-- Small size navigation for mobile -->
+    <div class="w3-top w3-hide-large w3-hide-medium" id="smallNavbar">
+        <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+            <a href="index.html" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
+            <a href="portfolio.html" class="w3-bar-item w3-button" style="width:25% !important">PORTFOLIO</a>
+            <a href="images.html" class="w3-bar-item w3-button" style="width:25% !important">IMAGES</a>
+            <a href="videos.html" class="w3-bar-item w3-button" style="width:25% !important">VIDEOS</a>
+        </div>
+    </div>
+
+    <div class="w3-padding-large w3-center" id="main">
+        <header class="w3-container w3-padding-32 w3-center w3-black">
+            <h1 class="w3-jumbo">Portfolio</h1>
+            <p>Previous Pieces and Projects</p>
+        </header>
+        <div class="w3-row-padding w3-content" style="width: 60%;display: table;">
+            <div class="w3-col s6">
+                <div class="w3-round-xlarge w3-padding w3-hover-light-gray s6 w3-dark-gray" >
+                    <a href="SOS-Atlas.html">
+                        <img src="img/SOS-Atlas.png"></img>
+                        <p>SOS-Atlas</p>
+                    </a>
+                </div>
+            </div>
+            <div class="w3-col s6">
+                <div class="w3-round-xlarge w3-padding w3-hover-light-gray s6 w3-dark-gray">
+                    <a href="https://ucsb-rooms.herokuapp.com/" target="_blank">
+                        <img src="img/ucsb-rooms-small.png"></img>
+                        <p>UCSB-Rooms</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

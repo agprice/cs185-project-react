@@ -1,9 +1,0 @@
-.background-javascript {
-    background-image: url('src/javascript.jpg');
-    background-repeat: repeat;
-}
-
-.background-rounded {
-    border: 10px solid rgb(52, 58, 64);
-    border-radius: 25px;
-}
