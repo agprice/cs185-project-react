@@ -1,15 +1,15 @@
-#backgroundVideo {
+#background-video {
     position: fixed;
-    right: 0;
+    left: 120px;
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
 }
 
-.backgroundOverlay {
+.background-overlay {
     position: relative;
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.7); 
 }
 
 /* Set the font families for the pages */
@@ -40,13 +40,20 @@ hr.separator {
 
 /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 #main {
-    margin-left: 120px
+    margin-left: 120px;
 }
 
 /* Remove margins from "page content" on small screens */
 
 @media only screen and (max-width: 600px) {
+    #background-video {
+        left: 0;
+    }
     #main {
         margin-left: 0
+    }
+    #sos-trailer {
+        width:364px;
+        height:216px;
     }
 }
