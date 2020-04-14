@@ -7,9 +7,19 @@
     border: 10px solid rgb(52, 58, 64);
     border-radius: 25px;
 }
-
+/* Set the font families for the pages */
 body, h1, h2, h3, h4, h5, h6 {
     font-family: "Montserrat", sans-serif
+}
+
+hr.sidebar {
+    margin-top: 0px;
+    border: 1px solid darkgray;
+}
+
+hr.separator {
+    border: 1px solid darkgray;
+    border-radius: 10px;
 }
 
 .w3-row-padding img {
@@ -24,7 +34,6 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
-
 #main {
     margin-left: 120px
 }
