@@ -49,11 +49,11 @@
     </div>
 
 
-    <div style="width: auto;" id="main">
+    <div id="main">
         <video autoplay muted loop id="background-video">
             <source src="videos/star_trails.mp4" type="video/mp4">
         </video>
-        <div class="background-overlay w3-padding-large" id="about">
+        <div class="background-overlay w3-padding-large">
             <header class="w3-padding-32 w3-center">
                 <img class="w3-padding" src="img/SOS-Atlas-Large.png" style="width: 50%;" /><br>
                 <a href="https://store.steampowered.com/app/781380/SOS_Atlas/" target="_blank" class="w3-large w3-button w3-black w3-round">View on Steam</a>
@@ -66,7 +66,9 @@
                 </p>
                 <hr class="separator" />
                 <h3>Gameplay Trailer</h3>
-                <iframe id="sos-trailer" width="1024" height="576" class="video-container" src="https://www.youtube-nocookie.com/embed/iYiZVfaF2mg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-container">
+                    <iframe src="https://www.youtube-nocookie.com/embed/iYiZVfaF2mg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
     </div>

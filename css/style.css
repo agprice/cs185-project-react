@@ -6,6 +6,23 @@
     min-height: 100%;
 }
 
+.video-container {
+    position: relative;
+    overflow: hidden;
+    height: 0;
+    /* This is a 16/9 aspect Ratio */
+    padding-bottom: 56.25%;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    transform: translate(-50%, -0%);
+}
+
 .quiet-link {
     text-decoration: none;
 }
@@ -17,6 +34,7 @@
 
 .background-overlay {
     position: relative;
+    min-height: 100vh;
     background: rgba(0, 0, 0, 0.7);
 }
 
@@ -72,8 +90,8 @@ hr.separator {
     #main {
         margin-left: 0
     }
-    #sos-trailer {
-        width: 364px;
-        height: 216px;
+    .video-container iframe {
+        width: 100%;
+        height: 100%;
     }
 }
