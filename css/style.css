@@ -103,6 +103,9 @@ hr.separator {
     .w3-quarter {
         width: 33.33%;
     }
+    .w3-third {
+        width: 50%;
+    }
 }
 
 
@@ -110,6 +113,9 @@ hr.separator {
 
 @media screen and (min-width: 601px) and (max-width: 800px) {
     .w3-quarter {
+        width: 50%;
+    }
+    .w3-third {
         width: 50%;
     }
 }
