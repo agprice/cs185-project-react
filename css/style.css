@@ -7,11 +7,11 @@
     font-size: 18px;
     border: none;
     outline: none;
-    background-color: red;
+    background-color: gray;
     color: white;
     cursor: pointer;
-    padding: 15px;
-    border-radius: 4px;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 #background-video {
