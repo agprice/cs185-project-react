@@ -55,7 +55,9 @@
 
 <script>
     $(function() {
-        $("#LHS-nav-placeholder").load("/fragments/LHS-nav.html");
+        $("#LHS-nav-placeholder").load("/fragments/LHS-nav.html", function() {
+            $("#portfolioTab").addClass("w3-black");
+        });
     });
 </script>
 

@@ -69,7 +69,9 @@
 
 <script>
     $(function() {
-        $("#LHS-nav-placeholder").load("/fragments/LHS-nav.html");
+        $("#LHS-nav-placeholder").load("/fragments/LHS-nav.html", function() {
+            $("#homeTab").addClass("w3-black");
+        });
     });
 </script>
 
