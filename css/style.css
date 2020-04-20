@@ -6,13 +6,30 @@
     min-height: 100%;
 }
 
-.background-overlay {
-    position: relative;
-    background: rgba(0, 0, 0, 0.7); 
+.quiet-link {
+    text-decoration: none;
 }
 
+.portfolio-image {
+    max-height: 163px;
+    max-width: 100%;
+}
+
+.background-overlay {
+    position: relative;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+
 /* Set the font families for the pages */
-body, h1, h2, h3, h4, h5, h6 {
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: "Montserrat", sans-serif
 }
 
@@ -30,6 +47,7 @@ hr.separator {
     margin-bottom: 12px
 }
 
+
 /* Set the width of the sidebar to 120px */
 
 .w3-sidebar {
@@ -37,10 +55,13 @@ hr.separator {
     background: #222;
 }
 
+
 /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+
 #main {
     margin-left: 120px;
 }
+
 
 /* Remove margins from "page content" on small screens */
 
@@ -52,7 +73,7 @@ hr.separator {
         margin-left: 0
     }
     #sos-trailer {
-        width:364px;
-        height:216px;
+        width: 364px;
+        height: 216px;
     }
 }
