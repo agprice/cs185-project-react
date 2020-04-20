@@ -13,8 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="stylesheet" href="css/w3.css">
     <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="scripts/go-to-top.js"></script>
+    <script src="scripts/jquery-3.5.0.min.js"></script>
 </head>
 
 <body class="w3-black">
@@ -33,51 +33,22 @@
         </header>
 
         <!-- Slideshow, filled with fancy images -->
-        <div class="w3-content w3-center">
-            <img class="aethesticSlides" src="img/lonely-house.jpg" style="width:100%;">
-            <img class="aethesticSlides" src="img/a_tac_on_titan.png" style="width:100%;display:none">
-            <img class="aethesticSlides" src="img/pleasant_valley.jpg" style="width:100%;display:none">
-
-
-            <div class="w3-row-padding w3-section">
-                <div class="w3-col s4">
-                    <img class="aethesticImages w3-opacity w3-hover-opacity-off" src="img/lonely-house.jpg" style="width:100%;cursor:pointer" onclick="currentDiv(1)">
+        <div>
+            <div class="w3-row-padding" style="width: 100%;">
+                <div class="w3-quarter w3-hover-opacity">
+                    <img class="aethesticImages w3-opacity" src="img/lonely-house.jpg" style="width:100%;cursor:pointer">
                 </div>
-                <div class="w3-col s4">
-                    <img class="aethesticImages w3-opacity w3-hover-opacity-off" src="img/a_tac_on_titan.png" style="width:100%;cursor:pointer" onclick="currentDiv(2)">
+                <div class="w3-quarter w3-hover-opacity">
+                    <img class="aethesticImages w3-opacity" src="img/a_tac_on_titan.png" style="width:100%;cursor:pointer"> </div>
+                <div class="w3-quarter w3-hover-opacity">
+                    <img class="aethesticImages w3-opacity" src="img/pleasant_valley.jpg" style="width:100%;cursor:pointer">
                 </div>
-                <div class="w3-col s4">
-                    <img class="aethesticImages w3-opacity w3-hover-opacity-off" src="img/pleasant_valley.jpg" style="width:100%;cursor:pointer" onclick="currentDiv(3)">
+                <div class="w3-quarter w3-hover-opacity">
+                    <img class="aethesticImages w3-opacity" src="img/pleasant_valley.jpg" style="width:100%;cursor:pointer">
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        function currentDiv(n) {
-            showDivs(slideIndex = n);
-        }
-
-        function showDivs(n) {
-            var i;
-            var x = document.getElementsByClassName("aethesticSlides");
-            var dots = document.getElementsByClassName("aethesticImages");
-            if (n > x.length) {
-                slideIndex = 1
-            }
-            if (n < 1) {
-                slideIndex = x.length
-            }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
-            }
-            x[slideIndex - 1].style.display = "block";
-            dots[slideIndex - 1].className += " w3-opacity-off";
-        }
-    </script>
 
 </body>
 

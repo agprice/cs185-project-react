@@ -10,7 +10,6 @@ function showTopBtn() {
     var scrollTop = $(window).scrollTop()
     var windowHeight = $(window).height()
     var scrollPercent = Math.round(scrollTop / (documentHeight - windowHeight) * 100)
-    console.log(scrollPercent);
     if (scrollPercent > 25) {
         $(topBtn).fadeIn(200);
     } else {
@@ -21,6 +20,6 @@ function showTopBtn() {
 
 // This takes the user to the top of the page
 function topFunction() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+    $('html,body').animate({ scrollTop: 0 }, 'fast');
+    return false;
 }

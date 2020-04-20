@@ -97,7 +97,25 @@ hr.separator {
 }
 
 
-/* Remove margins from "page content" on small screens */
+/* Set number of image rows on large screens */
+
+@media screen and (max-width: 1400px) and (min-width: 801px) {
+    .w3-quarter {
+        width: 33.33%;
+    }
+}
+
+
+/* Set number of image rows on medium screens */
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+    .w3-quarter {
+        width: 50%;
+    }
+}
+
+
+/* Setup page for small screens */
 
 @media only screen and (max-width: 600px) {
     #background-video {
