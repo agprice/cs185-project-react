@@ -99,7 +99,7 @@ hr.separator {
 
 /* Set number of image rows on large screens */
 
-@media screen and (max-width: 1400px) and (min-width: 801px) {
+@media screen and (max-width: 1500px) and (min-width: 801px) {
     .w3-quarter {
         width: 33.33%;
     }
