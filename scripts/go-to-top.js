@@ -1,11 +1,10 @@
 $(document).ready(function() {
     var topBtn = document.getElementById("topBtn");
-
 });
 window.onscroll = function() {
     showTopBtn()
 };
-
+// This function shows and hides the top button when you have scrolled 25%
 function showTopBtn() {
     var documentHeight = $(document).height()
     var scrollTop = $(window).scrollTop()

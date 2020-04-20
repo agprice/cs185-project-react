@@ -1,20 +1,20 @@
 <!-- Main side navigation bar. Hidden on smaller screens -->
 <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
     <img src="img/home-icon.png" style="width:100%">
-    <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <a href="index.html" id="homeTab" class="w3-bar-item w3-button w3-padding-large w3-hover-black tabBtn">
         <i class="fa fa-home w3-xxlarge"></i>
         <p>Home</p>
     </a>
     <hr class="sidebar">
-    <a href="portfolio.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <a href="portfolio.html" id="portfolioTab" class="w3-bar-item w3-button w3-padding-large w3-hover-black tabBtn">
         <i class="fa fa-folder-open w3-xxlarge"></i>
         <p>Portfolio</p>
     </a>
-    <a href="images.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <a href="images.html" id="imagesTab" class="w3-bar-item w3-button w3-padding-large w3-hover-black tabBtn">
         <i class="fa fa-file-image-o w3-xxlarge"></i>
         <p>Images</p>
     </a>
-    <a href="videos.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <a href="videos.html" id="videosTab" class="w3-bar-item w3-button w3-padding-large w3-hover-black tabBtn">
         <i class="fa fa-video-camera w3-xxlarge"></i>
         <p>Videos</p>
     </a>
@@ -23,9 +23,20 @@
 <!-- Small size navigation for mobile -->
 <div class="w3-top w3-hide-large w3-hide-medium" id="smallNavbar">
     <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
-        <a href="index.html" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
-        <a href="portfolio.html" class="w3-bar-item w3-button" style="width:25% !important">PORTFOLIO</a>
-        <a href="images.html" class="w3-bar-item w3-button" style="width:25% !important">IMAGES</a>
-        <a href="videos.html" class="w3-bar-item w3-button" style="width:25% !important">VIDEOS</a>
+        <a href="index.html" class="w3-bar-item w3-button tabBtn" style="width:25% !important">HOME</a>
+        <a href="portfolio.html" class="w3-bar-item w3-button tabBtn" style="width:25% !important">PORTFOLIO</a>
+        <a href="images.html" class="w3-bar-item w3-button tabBtn" style="width:25% !important">IMAGES</a>
+        <a href="videos.html" class="w3-bar-item w3-button tabBtn" style="width:25% !important">VIDEOS</a>
     </div>
 </div>
+
+<script>
+    function hightlightButton(event, btnToHighlight) {
+        console.log("hello");
+        tabBtns = document.getElementsByClassName("tabBtn");
+        for (i = 0; i < x.length; i++) {
+            tabBtns[i].className = tabBtns[i].className.replace(" w3-black", "");
+        }
+        event.currentTarget.className += " w3-red";
+    }
+</script>
