@@ -15,6 +15,7 @@
     <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
     <script src="scripts/jquery-3.5.0.min.js"></script>
     <script src="scripts/go-to-top.js"></script>
+    <script src="scripts/media-modal.js"></script>
 </head>
 
 <body class="w3-black">
@@ -27,6 +28,15 @@
 
     <!-- Page Body -->
     <div class="w3-center w3-padding-large w3-container" id="main">
+
+        <!-- The Modal for displaying various media -->
+        <div id="mediaModal" class="modal w3-center">
+            <div class="modal-content">
+                <img class="w3-center" id="modalImage"></img>
+                <div id="caption" class="w3-margin"></div>
+            </div>
+        </div>
+
         <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
             <h1 class="w3-jumbo">Images</h1>
             <p>Some Images collected from across the years</p>
@@ -35,27 +45,30 @@
         <!-- Slideshow, filled with fancy images -->
         <div class="w3-row-padding">
             <div class="w3-quarter w3-hover-opacity">
-                <img class="aethesticImages w3-opacity" src="img/lonely-house.jpg" style="width:100%;cursor:pointer">
+                <img onclick="showModal()" alt="House in a Prairie" src="img/lonely-house.jpg" style="width:100%;cursor:pointer">
             </div>
             <div class="w3-quarter w3-hover-opacity">
-                <img class="aethesticImages w3-opacity" src="img/a_tac_on_titan.png" style="width:100%;cursor:pointer"> </div>
+                <img onclick="showModal()" alt="A Tack on Titan" src="img/a_tac_on_titan.png" style="width:100%;cursor:pointer"> </div>
             <div class="w3-quarter w3-hover-opacity">
-                <img class="aethesticImages w3-opacity" src="img/pleasant_valley.jpg" style="width:100%;cursor:pointer">
+                <img onclick="showModal()" alt="Scenic Valley" src="img/pleasant_valley.jpg" style="width:100%;cursor:pointer">
             </div>
             <div class="w3-quarter w3-hover-opacity">
-                <img class="aethesticImages w3-opacity" src="img/pleasant_valley.jpg" style="width:100%;cursor:pointer">
+                <img onclick="showModal()" alt="Boat by Odaiba" src="img/IMG_3234.JPG" style="width:100%;cursor:pointer">
             </div>
             <div class="w3-quarter w3-hover-opacity">
-                <img class="aethesticImages w3-opacity" src="img/lonely-house.jpg" style="width:100%;cursor:pointer">
+                <img onclick="showModal()" alt="Stone Wall" src="img/P1090090.JPG" style="width:100%;cursor:pointer">
             </div>
             <div class="w3-quarter w3-hover-opacity">
-                <img class="aethesticImages w3-opacity" src="img/a_tac_on_titan.png" style="width:100%;cursor:pointer">
+                <img onclick="showModal()" alt="Don't Smoke" src="img/IMG_3263.JPG" style="width:100%;cursor:pointer">
             </div>
             <div class="w3-quarter w3-hover-opacity">
-                <img class="aethesticImages w3-opacity" src="img/pleasant_valley.jpg" style="width:100%;cursor:pointer">
+                <img onclick="showModal()" alt="Don't Pasture that Dog" src="img/IMG_3264.JPG" style="width:100%;cursor:pointer">
             </div>
             <div class="w3-quarter w3-hover-opacity">
-                <img class="aethesticImages w3-opacity" src="img/pleasant_valley.jpg" style="width:100%;cursor:pointer">
+                <img onclick="showModal()" alt="Large Spider, in the Park" src="img/P1080899.JPG" style="width:100%;cursor:pointer">
+            </div>
+            <div class="w3-quarter w3-hover-opacity">
+                <img onclick="showModal()" alt="Background from UCSB Rooms" src="img/background.png" style="width:100%;cursor:pointer">
             </div>
         </div>
     </div>
