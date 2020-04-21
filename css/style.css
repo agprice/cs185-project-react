@@ -41,11 +41,12 @@
     margin: 0;
     left: 50%;
     top: 50%;
+    width: 60%;
     transform: translate(-50%, -50%);
 }
 
 .modal-content img {
-    max-width: 1300px;
+    max-width: 100%;
 }
 
 .video-container {
@@ -159,5 +160,8 @@ hr.separator {
     .video-container iframe {
         width: 100%;
         height: 100%;
+    }
+    .modal-content {
+        width: 95%;
     }
 }
