@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+<head id="head">
     <title>
         CS185 Class Project
     </title>
@@ -12,44 +12,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="stylesheet" href="css/w3.css">
+    <script src="scripts/jquery-3.5.0.min.js"></script>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <script src="scripts/go-to-top.js"></script>
+    <script src="scripts/media-modal.js"></script>
 </head>
 
 <body class="w3-black">
-    <!-- Main side navigation bar. Hidden on smaller screens -->
-    <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
-        <img src="img/home-icon.png" style="width:100%">
-        <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-            <i class="fa fa-home w3-xxlarge"></i>
-            <p>Home</p>
-        </a>
-        <hr class="sidebar">
-        <a href="portfolio.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-            <i class="fa fa-folder-open w3-xxlarge"></i>
-            <p>Portfolio</p>
-        </a>
-        <a href="images.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-            <i class="fa fa-file-image-o w3-xxlarge"></i>
-            <p>Images</p>
-        </a>
-        <a href="videos.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-            <i class="fa fa-video-camera w3-xxlarge"></i>
-            <p>Videos</p>
-        </a>
-    </nav>
 
-    <!-- Small size navigation for mobile -->
-    <div class="w3-top w3-hide-large w3-hide-medium" id="smallNavbar">
-        <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
-            <a href="index.html" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
-            <a href="portfolio.html" class="w3-bar-item w3-button" style="width:25% !important">PORTFOLIO</a>
-            <a href="images.html" class="w3-bar-item w3-button" style="width:25% !important">IMAGES</a>
-            <a href="videos.html" class="w3-bar-item w3-button" style="width:25% !important">VIDEOS</a>
-        </div>
+    <button onclick="topFunction()" id="topBtn" title="Go to top">Go to Top</button>
+
+    <!-- Main shared navigation elements -->
+    <div id="LHS-nav-placeholder">
     </div>
 
     <!-- Page Body -->
     <div class="w3-center w3-padding-large w3-container" id="main">
+
+        <!-- The Modal for displaying various media -->
+        <div id="mediaModal" class="modal w3-center">
+            <div class="modal-content">
+                <video loop controls autoplay style="width: 100%;height: 100%;" class="w3-center" id="modalImage"></video>
+                <div id="caption" class="w3-margin"></div>
+            </div>
+        </div>
+
         <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
             <h1 class="w3-jumbo">Videos</h1>
             <p>Gems from Across the Ages</p>
@@ -57,30 +44,33 @@
 
         <!-- A grid, filled with fancy videos -->
         <div class="w3-row-padding">
-            <div class="w3-col s4 w3-center">
-                <video loop controls style="width: 100%;height: 100%;">
-                    <source src="videos/star_trails.mp4" type="video/mp4">
+            <div class="w3-third w3-hover-opacity">
+                <video onclick="showModal()" loop style="width: 100%;height: 100%;" src="videos/star_trails.mp4" type="video/mp4">
                 </video>
             </div>
-            <div class="w3-col s4 w3-center">
-                <video loop controls style="width: 100%;height: 100%;">
-                    <source src="videos/Trinity and Beyond - 1995.webm" type="video/webm">
+            <div class="w3-third w3-hover-opacity">
+                <video onclick="showModal()" loop style="width: 100%;height: 100%;" src="videos/Trinity and Beyond - 1995.webm" type="video/webm">
                 </video>
             </div>
-            <div class="w3-col s4 w3-center">
-                <video loop controls style="width: 100%;height: 100%;">
-                    <source src="videos/Space Shuttle Enterprise.webm" type="video/webm">
+            <div class="w3-third w3-hover-opacity">
+                <video onclick="showModal()" loop style="width: 100%;height: 100%;" src="videos/Space Shuttle Enterprise.webm" type="video/webm">
                 </video>
             </div>
-        </div>
-        <div class="w3-row-padding">
-            <div class="w3-col s12 w3-center">
-                <video loop controls style="width: 100%;height: 10%;">
-                    <source src="videos/Checkout Portals.webm" type="video/webm">
+            <div class="w3-third w3-hover-opacity">
+                <video onclick="showModal()" loop style="width: 100%;height: 10%;" src="videos/Checkout Portals.webm" type="video/webm">
                 </video>
             </div>
         </div>
     </div>
 </body>
+
+<script>
+    $(function() {
+        $("#LHS-nav-placeholder").load("/fragments/LHS-nav.html", function() {
+            $("#videosTab").addClass("w3-black");
+            $("#videosTabM").addClass("w3-gray");
+        });
+    });
+</script>
 
 </html>
