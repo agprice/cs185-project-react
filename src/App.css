@@ -1,0 +1,178 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+#topBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#background-video {
+  position: fixed;
+  left: 120px;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.tabBtn {
+  width: 25% !important;
+}
+
+.modal {
+  /* display: none; */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+  position: absolute;
+  margin: auto;
+  display: block;
+  margin: 0;
+  left: 50%;
+  top: 50%;
+  width: 60%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-content img {
+  max-width: 100%;
+}
+
+.video-container {
+  position: relative;
+  overflow: hidden;
+  height: 0;
+  /* This is a 16/9 aspect Ratio */
+  padding-bottom: 56.25%;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  width: 70%;
+  height: 70%;
+  transform: translate(-50%, -0%);
+}
+
+.quiet-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.portfolio-image {
+  max-height: 163px;
+  max-width: 100%;
+}
+
+.background-overlay {
+  position: relative;
+  min-height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+html, body {
+  height: 100%;
+}
+
+/* Set the font families for the pages */
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat", sans-serif
+}
+
+hr.sidebar {
+  margin-top: 0px;
+  border: 1px solid darkgray;
+}
+
+hr.separator {
+  border: 1px solid darkgray;
+  border-radius: 10px;
+}
+
+.w3-row-padding img {
+  margin-bottom: 12px
+}
+
+
+/* Set the width of the sidebar to 120px */
+
+.w3-sidebar {
+  width: 120px;
+  background: #222;
+}
+
+
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+
+#main {
+  margin-left: 120px;
+}
+
+
+/* Set number of image rows on large screens */
+
+@media screen and (max-width: 1500px) and (min-width: 801px) {
+  .w3-quarter {
+      width: 33.33%;
+  }
+  .w3-third {
+      width: 50%;
+  }
+}
+
+
+/* Set number of image rows on medium screens */
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+  .w3-quarter {
+      width: 50%;
+  }
+  .w3-third {
+      width: 50%;
+  }
+}
+
+
+/* Setup page for small screens */
+
+@media only screen and (max-width: 600px) {
+  #background-video {
+      left: 0;
+  }
+  #main {
+      margin-left: 0
+  }
+  .video-container iframe {
+      width: 100%;
+      height: 100%;
+  }
+  .modal-content {
+      width: 95%;
+  }
+}
