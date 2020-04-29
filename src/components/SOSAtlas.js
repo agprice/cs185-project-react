@@ -7,9 +7,9 @@ export default class SOSAtlas extends Component {
                 <video autoPlay muted loop id="background-video">
                     <source src={require("../videos/star_trails.mp4")} type="video/mp4" />
                 </video>
-                 <div className="background-overlay w3-padding-large">
+                <div className="background-overlay w3-padding-large">
                     <header className="w3-padding-32 w3-center">
-                            <img alt='SOS-Atlas Logo' className="w3-padding" src={require("../images/SOS-Atlas-Large.png")} style={{width: '50%'}} /><br />
+                        <img alt='SOS-Atlas Logo' className="w3-padding" src={require("../images/SOS-Atlas-Large.png")} style={{ width: '50%' }} /><br />
                         <a href="https://store.steampowered.com/app/781380/SOS_Atlas/" rel="noopener noreferrer" target="_blank" className="w3-large w3-button w3-black w3-round">View on Steam</a>
                     </header>
 

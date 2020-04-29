@@ -27,7 +27,7 @@ export default class LargeTab extends Component {
     }
     render() {
         return (
-            <div className={this.selectTabIfActive()}  onClick={this.props.changeTab.bind(this, this.props.tab.component)}>
+            <div className={this.selectTabIfActive()} onClick={this.props.changeTab.bind(this, this.props.tab.component)}>
                 <i className={this.setTabIcon()} />
                 <p>{this.props.tab.title}</p>
             </div>

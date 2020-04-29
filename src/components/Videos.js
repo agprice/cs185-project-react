@@ -2,13 +2,6 @@ import React, { Component } from 'react'
 import ModalImage from "../containers/ModalImage"
 
 export default class Videos extends Component {
-    // componentDidMount() {
-    //     const script = document.createElement("script");
-    //     script.async = true;
-    //     script.src = "../media-modal.js";
-    //     document.head.appendChild(script);
-    // }
-
     render() {
         return (
             <div className='w3-center w3-padding-large w3-container' id='main'>
@@ -19,10 +12,10 @@ export default class Videos extends Component {
                 </header>
 
                 <div className="w3-row-padding">
-                    <ModalImage alt='SOS-Atlas Loading Screen' content='video' src={require('../videos/star_trails.mp4')}/>
-                    <ModalImage alt='Testing at Trinity' content='video' src={require('../videos/Trinity and Beyond - 1995.webm')}/>
-                    <ModalImage alt='Space Shuttle Liftoff' content='video' src={require('../videos/Space Shuttle Enterprise.webm')}/>
-                    <ModalImage alt='Portals' content='video' src={require('../videos/Checkout Portals.webm')}/>
+                    <ModalImage alt='SOS-Atlas Loading Screen' content='video' src={require('../videos/star_trails.mp4')} />
+                    <ModalImage alt='Testing at Trinity' content='video' src={require('../videos/Trinity and Beyond - 1995.webm')} />
+                    <ModalImage alt='Space Shuttle Liftoff' content='video' src={require('../videos/Space Shuttle Enterprise.webm')} />
+                    <ModalImage alt='Portals' content='video' src={require('../videos/Checkout Portals.webm')} />
                 </div>
             </div>
         )

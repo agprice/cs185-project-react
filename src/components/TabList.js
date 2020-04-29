@@ -8,7 +8,7 @@ export default class TabList extends Component {
             <div>
                 {/* Large screen LHS Menu */}
                 <nav className="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
-                    <img alt="Nav-Bar-header" src={require('../images/home-icon.png')} style={{ width: '100%'}}></img>
+                    <img alt="Nav-Bar-header" src={require('../images/home-icon.png')} style={{ width: '100%' }}></img>
                     {
                         this.props.tabs.map((tab, index) => (
                             <LargeTab key={index} tab={tab} changeTab={this.props.changeTab} activeTab={this.props.activeTab} />
