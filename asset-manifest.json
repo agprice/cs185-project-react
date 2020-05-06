@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "/cs185-project-react/static/css/main.8a719e90.chunk.css",
+    "main.js": "/cs185-project-react/static/js/main.69e77fea.chunk.js",
+    "main.js.map": "/cs185-project-react/static/js/main.69e77fea.chunk.js.map",
+    "runtime-main.js": "/cs185-project-react/static/js/runtime-main.f51e5996.js",
+    "runtime-main.js.map": "/cs185-project-react/static/js/runtime-main.f51e5996.js.map",
+    "static/js/2.7d22640d.chunk.js": "/cs185-project-react/static/js/2.7d22640d.chunk.js",
+    "static/js/2.7d22640d.chunk.js.map": "/cs185-project-react/static/js/2.7d22640d.chunk.js.map",
+    "index.html": "/cs185-project-react/index.html",
+    "precache-manifest.82e625ed4172ba86ae99f4f907de855c.js": "/cs185-project-react/precache-manifest.82e625ed4172ba86ae99f4f907de855c.js",
+    "service-worker.js": "/cs185-project-react/service-worker.js",
+    "static/css/main.8a719e90.chunk.css.map": "/cs185-project-react/static/css/main.8a719e90.chunk.css.map",
+    "static/js/2.7d22640d.chunk.js.LICENSE.txt": "/cs185-project-react/static/js/2.7d22640d.chunk.js.LICENSE.txt",
+    "static/media/Checkout Portals.webm": "/cs185-project-react/static/media/Checkout Portals.b56ded24.webm",
+    "static/media/IMG_3234.JPG": "/cs185-project-react/static/media/IMG_3234.8d292be8.JPG",
+    "static/media/IMG_3263.JPG": "/cs185-project-react/static/media/IMG_3263.b2293092.JPG",
+    "static/media/IMG_3264.JPG": "/cs185-project-react/static/media/IMG_3264.d707fd27.JPG",
+    "static/media/P1080899.JPG": "/cs185-project-react/static/media/P1080899.e6b55392.JPG",
+    "static/media/P1090090.JPG": "/cs185-project-react/static/media/P1090090.ad8feea5.JPG",
+    "static/media/SOS-Atlas-Large.png": "/cs185-project-react/static/media/SOS-Atlas-Large.b7aed695.png",
+    "static/media/SOS-Atlas.png": "/cs185-project-react/static/media/SOS-Atlas.28a7830a.png",
+    "static/media/Space Shuttle Enterprise.webm": "/cs185-project-react/static/media/Space Shuttle Enterprise.b84b240d.webm",
+    "static/media/Trinity and Beyond - 1995.webm": "/cs185-project-react/static/media/Trinity and Beyond - 1995.6e147f5d.webm",
+    "static/media/a_tac_on_titan.png": "/cs185-project-react/static/media/a_tac_on_titan.189ede4d.png",
+    "static/media/background.png": "/cs185-project-react/static/media/background.9a3f3a76.png",
+    "static/media/lonely-house.jpg": "/cs185-project-react/static/media/lonely-house.0d60cdaa.jpg",
+    "static/media/pleasant_valley.jpg": "/cs185-project-react/static/media/pleasant_valley.5330f196.jpg",
+    "static/media/star_trails.mp4": "/cs185-project-react/static/media/star_trails.5a718ac2.mp4",
+    "static/media/ucsb-rooms-small.png": "/cs185-project-react/static/media/ucsb-rooms-small.a328fa7c.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f51e5996.js",
+    "static/js/2.7d22640d.chunk.js",
+    "static/css/main.8a719e90.chunk.css",
+    "static/js/main.69e77fea.chunk.js"
+  ]
+}
