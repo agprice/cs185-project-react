@@ -11,7 +11,7 @@ export default class Portfolio extends Component {
                     <h1 className="w3-jumbo">Portfolio</h1>
                     <p>Previous Pieces and Projects</p>
                 </header>
-                <div class="w3-row-padding w3-content w3-center">
+                <div className="w3-row-padding w3-content w3-center">
                     <PortfolioPiece
                         changeTab={this.props.changeTab}
                         src={require("../images/SOS-Atlas.png")}

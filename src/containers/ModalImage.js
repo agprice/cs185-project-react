@@ -13,9 +13,7 @@ export default class ModalImage extends Component {
         event.stopPropagation();
     };
     chooseModalClass = () => {
-        console.log(this.props.content);
         if (this.props.content === 'video') {
-            console.log("choose video");
             return (
                 <div className='w3-third'>
                     <video onClick={this.handleShowDialog} src={this.props.src} className="w3-hover-opacity" style={{ width: '100%', cursor: 'pointer' }}/>

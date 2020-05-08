@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 
 export default class PortfolioPiece extends Component {
     setPieceType = () => {
-        console.log(this.props.href);
         if (!this.props.href && this.props.changeTab) {
             return (
                 <div className="w3-half w3-container w3-hover-opacity w3-margin-bottom">
