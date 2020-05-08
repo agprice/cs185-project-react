@@ -8,6 +8,7 @@ import Home from './components/Home';
 import Portfolio from './components/Portfolio';
 import Images from './components/Images';
 import Videos from './components/Videos';
+import GuestLog from './containers/GuestLog';
 
 export class App extends Component {
   constructor() {
@@ -39,6 +40,10 @@ export class App extends Component {
       {
         component: Videos,
         title: 'Videos'
+      },
+      {
+        component: GuestLog,
+        title: 'Guest Log'
       },
     ]
     return (

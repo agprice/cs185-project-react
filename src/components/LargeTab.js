@@ -24,6 +24,9 @@ export default class LargeTab extends Component {
         else if (this.props.tab.title === 'Videos') {
             return commonClasses + 'fa-video-camera'
         }
+        else if (this.props.tab.title === 'Guest Log') {
+            return commonClasses + 'fa-book'
+        }
     }
     render() {
         return (
