@@ -16,7 +16,7 @@ export default class GuestLog extends Component {
         this.setData = (snapshot) => {
             var postArray = [];
             snapshot.forEach((childSnapshot) => {
-                 postArray.push(childSnapshot.val());
+                postArray.push(childSnapshot.val());
             })
             console.log(postArray);
             this.setState({
@@ -50,9 +50,12 @@ export default class GuestLog extends Component {
      * Pushes data to the database. This can be called on form submission.
      */
     handleFormSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
-        firebase.database().ref('data').push().set({Name: this.state.value});
+        // alert('A name was submitted: ' + this.state.value);
         event.preventDefault();
+        const data = new FormData(event.target);
+        var newPost = {};
+        data.forEach((value, key) => { newPost[key] = value });
+        firebase.database().ref('data').push().set(newPost);
     }
 
     render() {
@@ -62,7 +65,7 @@ export default class GuestLog extends Component {
                 <LogForm submitHandler={this.handleFormSubmit} />
                 {
                     this.state.data.map((postJSON, index) => (
-                    <p>hi there {JSON.stringify(postJSON)}</p>
+                        <p>hi there {JSON.stringify(postJSON)}</p>
                     ))
                 }
             </div>
