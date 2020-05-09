@@ -5,11 +5,15 @@ import config from '../config.js'
 const firebase = require('firebase')
 
 export default class GuestLog extends Component {
+
+
     /**
      * This constructor sets up the state which contains the firebase JSON data
      */
     constructor() {
         super();
+        this.postsEndRef = React.createRef()
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.state = {
             data: ['hi', 'there', 'buddy'],
         }
@@ -56,10 +60,12 @@ export default class GuestLog extends Component {
         data.forEach((value, key) => { newPost[key] = value });
         newPost['date'] = firebase.database.ServerValue.TIMESTAMP
         firebase.database().ref('data').push().set(newPost);
+        this.postsEndRef.current.scrollIntoView({ behavior: 'smooth' })
         alert("Post Successful");
     }
 
     render() {
+
         return (
             <div className='w3-padding-large' id='main'>
                 <header className='w3-container w3-padding-32 w3-center w3-black' id='home'>
@@ -69,30 +75,37 @@ export default class GuestLog extends Component {
                     <div className='w3-half w3-animate-opacity w3-container w3-margin-bottom'>
                         <LogForm submitHandler={this.handleFormSubmit} />
                     </div>
-                    <div className='w3-half w3-animate-opacity scrollBox'>
-                        {
-                            this.state.data.map((postJSON, index) => (
-                                <div key={index} className="guest-post w3-dark-gray w3-animate-opacity">
-                                    <div className="post-info">
-                                        {postJSON.name + " "}
-                                        {Intl.DateTimeFormat("en-GB", {
-                                            year: "numeric",
-                                            month: "numeric",
-                                            day: "numeric",
-                                            hour: "numeric",
-                                            minute: "numeric",
-                                            hour12: false
-                                        }).format(postJSON.date)}
+                    <div className='w3-half w3-animate-opacity'>
+                        <div className="scrollBox">
+                            {
+                                this.state.data.map((postJSON, index) => (
+                                    <div key={index} className="guest-post w3-dark-gray w3-animate-opacity">
+                                        <div className="post-info">
+                                            {postJSON.name + " "}
+                                            {Intl.DateTimeFormat("en-GB", {
+                                                year: "numeric",
+                                                month: "numeric",
+                                                day: "numeric",
+                                                hour: "numeric",
+                                                minute: "numeric",
+                                                hour12: false
+                                            }).format(postJSON.date)}
+                                        </div>
+                                        <div className="post-bio">
+                                            <p>About me: {postJSON.about}</p>
+                                        </div>
+                                        <div className="post-message">
+                                            <p>Message: {postJSON.message}</p>
+                                        </div>
+                                        
                                     </div>
-                                    <div className="post-bio">
-                                        <p>About me: {postJSON.about}</p>
-                                    </div>
-                                    <div className="post-message">
-                                        <p>Message: {postJSON.message}</p>
-                                    </div>
-                                </div>
-                            ))
-                        }
+                                ))
+                            }
+                            <div ref={this.postsEndRef} />
+                        </div>
+                        <button className="w3-margin-top w3-right-align w3-button w3-dark-gray" onClick={() => { this.postsEndRef.current.scrollIntoView({ behavior: 'smooth' }) }} >
+                            go to latest
+                        </button>
                     </div>
                 </div>
             </div>
