@@ -35,7 +35,7 @@ export default class GuestLog extends Component {
         let ref = firebase.database().ref('data');
 
         //retrieve its data
-        ref.on('value', snapshot => {
+        ref.orderByChild("public").equalTo("true").on('value', snapshot => {
             //this is your call back function
             //state will be a JSON object after this
             //set your apps state to contain this data however you like
@@ -55,19 +55,38 @@ export default class GuestLog extends Component {
         const data = new FormData(event.target);
         var newPost = {};
         data.forEach((value, key) => { newPost[key] = value });
+        newPost['date'] = firebase.database.ServerValue.TIMESTAMP
         firebase.database().ref('data').push().set(newPost);
     }
 
     render() {
         return (
             <div className='w3-padding-large' id='main'>
-
-                <LogForm submitHandler={this.handleFormSubmit} />
-                {
-                    this.state.data.map((postJSON, index) => (
-                        <p>hi there {JSON.stringify(postJSON)}</p>
-                    ))
-                }
+                <header className='w3-container w3-padding-32 w3-center w3-black' id='home'>
+                    <h1 className='w3-jumbo'>Guest Log</h1>
+                </header>
+                <div className="w3-row-padding">
+                    <div className='w3-half  w3-container w3-margin-bottom'>
+                        <LogForm submitHandler={this.handleFormSubmit} />
+                    </div>
+                    <div className='w3-half scrollBox'>
+                        {
+                            this.state.data.map((postJSON, index) => (
+                                <div className="guest-post w3-dark-gray">
+                                    <p key={index} >Post {JSON.stringify(postJSON)}</p>
+                                    <p>Date: {Intl.DateTimeFormat("en-GB", {
+                                        year: "numeric",
+                                        month: "numeric",
+                                        day: "numeric",
+                                        hour: "numeric",
+                                        minute: "numeric",
+                                        hour12: false
+                                    }).format(postJSON.date)} </p>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
             </div>
         )
     }
