@@ -17,7 +17,7 @@ export default class TabList extends Component {
                 </nav>
                 {/* Small screen top Menu */}
                 <div className='w3-top w3-hide-large w3-hide-medium' id='smallNavbar'>
-                    <div className='w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small'>
+                    <div className='w3-bar w3-black w3-hover-opacity-off w3-center w3-small'>
                         {
                             this.props.tabs.map((tab, index) => (
                                 <SmallTab key={index} tab={tab} changeTab={this.props.changeTab} activeTab={this.props.activeTab} />
