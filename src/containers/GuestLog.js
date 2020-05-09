@@ -73,15 +73,23 @@ export default class GuestLog extends Component {
                         {
                             this.state.data.map((postJSON, index) => (
                                 <div className="guest-post w3-dark-gray">
-                                    <p key={index} >Post {JSON.stringify(postJSON)}</p>
-                                    <p>Date: {Intl.DateTimeFormat("en-GB", {
-                                        year: "numeric",
-                                        month: "numeric",
-                                        day: "numeric",
-                                        hour: "numeric",
-                                        minute: "numeric",
-                                        hour12: false
-                                    }).format(postJSON.date)} </p>
+                                    <div className="post-info">
+                                        {postJSON.name + " "}
+                                        {Intl.DateTimeFormat("en-GB", {
+                                            year: "numeric",
+                                            month: "numeric",
+                                            day: "numeric",
+                                            hour: "numeric",
+                                            minute: "numeric",
+                                            hour12: false
+                                        }).format(postJSON.date)}
+                                    </div>
+                                    <div className="post-bio">
+                                        <p>About me: {postJSON.about}</p>
+                                    </div>
+                                    <div className="post-message">
+                                        <p>Message: {postJSON.message}</p>
+                                    </div>
                                 </div>
                             ))
                         }

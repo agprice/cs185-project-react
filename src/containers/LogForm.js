@@ -23,15 +23,15 @@ export default class LogForm extends Component {
                 <div className="w3-panel">
                     <div className='w3-group w3-margin-bottom'>
                         <label className='w3-label'>Name</label>
-                        <input pattern=".{6,19}" className="w3-input" type="text" name="name" required />
+                        <input  minLength="6" maxLength="19" className="w3-input" type="text" name="name" required />
                     </div>
                     <div className='w3-group w3-margin-bottom'>
                         <label className='w3-label'>About Me</label>
-                        <input pattern=".{0,99}" className="w3-input" type="text" name="about" />
+                        <input maxLength="99" className="w3-input" type="text" name="about" />
                     </div>
                     <div className='w3-group w3-margin-bottom'>
                         <label className='w3-label'>Message</label>
-                        <input pattern=".{16,499}" className="w3-input" type="text" style={{ height: '150px' }} name="message" required />
+                        <textarea minLength="16" maxLength="499" className="w3-input" type="text" style={{ height: '150px' }} name="message" required />
                     </div>
                     <Select className='w3-group w3-white w3-margin-bottom' name="public" defaultValue={options[0]} options={options} />
 
