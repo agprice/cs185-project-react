@@ -5,8 +5,8 @@ export default class Images extends Component {
     render() {
         return (
             <div className='w3-center w3-padding-large w3-container' id='main'>
-                <header class='w3-container w3-padding-32 w3-center w3-black' id='home'>
-                    <h1 class='w3-jumbo'>Images</h1>
+                <header className='w3-container w3-padding-32 w3-center w3-black' id='home'>
+                    <h1 className='w3-jumbo'>Images</h1>
                     <p>Some Images collected from across the years</p>
                 </header>
 
