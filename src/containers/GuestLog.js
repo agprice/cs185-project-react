@@ -12,8 +12,11 @@ export default class GuestLog extends Component {
      */
     constructor() {
         super();
+        this.postsStartRef = React.createRef()
         this.postsEndRef = React.createRef()
+
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.firstLoad = true;
         this.state = {
             data: ['hi', 'there', 'buddy'],
         }
@@ -49,6 +52,16 @@ export default class GuestLog extends Component {
         });
     }
 
+    componentDidUpdate() {
+        // Ensure that auto scrolling doesn't happen until after first load
+        if (this.firstLoad == true) {
+            this.firstLoad = false;
+        }
+        else {
+            this.postsEndRef.current.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
+
     /**
      * Pushes data to the database. This can be called on form submission.
      */
@@ -61,7 +74,6 @@ export default class GuestLog extends Component {
         newPost['date'] = firebase.database.ServerValue.TIMESTAMP
         firebase.database().ref('data').push().set(newPost);
         alert("Post Successful");
-        this.postsEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     render() {
@@ -77,9 +89,10 @@ export default class GuestLog extends Component {
                     </div>
                     <div className='w3-half w3-animate-opacity'>
                         <div className="scrollBox">
+                            <div ref={this.postsStartRef} />
                             {
                                 this.state.data.map((postJSON, index) => (
-                                    <div key={index} className="guest-post w3-dark-gray w3-card w3-animate-opacity">
+                                    <div key={index} className="guest-post w3-round-large w3-dark-gray w3-card w3-animate-opacity">
                                         <div className="post-info w3-margin-bottom">
                                             {postJSON.name + " "}
                                             {Intl.DateTimeFormat("en-GB", {
@@ -93,11 +106,11 @@ export default class GuestLog extends Component {
                                             }).format(postJSON.date)}
                                         </div>
                                         <div className="w3-group w3-margin-bottom post-bio">
-                                            <label className="w3-label">About me:</label>
+                                            <label className="w3-label">About me</label>
                                             <div className='w3-card w3-padding'>{postJSON.about}</div>
                                         </div>
                                         <div className="w3-group post-message">
-                                            <label className="w3-label">Message:</label>
+                                            <label className="w3-label">Message</label>
                                             <div className='w3-card w3-padding'>{postJSON.message}</div>
                                         </div>
                                     </div>
@@ -105,9 +118,14 @@ export default class GuestLog extends Component {
                             }
                             <div ref={this.postsEndRef} />
                         </div>
-                        <button className="w3-margin-top w3-right-align w3-button w3-dark-gray" onClick={() => { this.postsEndRef.current.scrollIntoView({ behavior: 'smooth' }) }} >
-                            go to latest
-                        </button>
+                        <div className="w3-margin-top">
+                            <button className="w3-margin-right w3-right-align w3-button w3-dark-gray" onClick={() => { this.postsEndRef.current.scrollIntoView({ behavior: 'smooth' }) }} >
+                                go to bottom
+                            </button>
+                            <button className="w3-right-align w3-button w3-dark-gray" onClick={() => { this.postsStartRef.current.scrollIntoView({ behavior: 'smooth' }) }} >
+                                go to top
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

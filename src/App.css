@@ -25,6 +25,10 @@
   min-height: 100%;
 }
 
+.scrollBox::-webkit-scrollbar {
+  display: none;
+}
+
 .scrollBox {
   overflow-y: auto;
   overflow-x: hidden;
