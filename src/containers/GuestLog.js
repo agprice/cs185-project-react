@@ -60,15 +60,15 @@ export default class GuestLog extends Component {
         data.forEach((value, key) => { newPost[key] = value });
         newPost['date'] = firebase.database.ServerValue.TIMESTAMP
         firebase.database().ref('data').push().set(newPost);
-        this.postsEndRef.current.scrollIntoView({ behavior: 'smooth' })
         alert("Post Successful");
+        this.postsEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     render() {
 
         return (
-            <div className='w3-padding-large' id='main'>
-                <header className='w3-container w3-padding-32 w3-center w3-black' id='home'>
+            <div className='w3-padding-large guest-log' id='main'>
+                <header className='w3-container w3-padding-32 w3-center' id='home'>
                     <h1 className='w3-jumbo'>Guest Log</h1>
                 </header>
                 <div className="w3-row-padding">
@@ -79,8 +79,8 @@ export default class GuestLog extends Component {
                         <div className="scrollBox">
                             {
                                 this.state.data.map((postJSON, index) => (
-                                    <div key={index} className="guest-post w3-dark-gray w3-animate-opacity">
-                                        <div className="post-info">
+                                    <div key={index} className="guest-post w3-dark-gray w3-card w3-animate-opacity">
+                                        <div className="post-info w3-margin-bottom">
                                             {postJSON.name + " "}
                                             {Intl.DateTimeFormat("en-GB", {
                                                 year: "numeric",
@@ -88,16 +88,18 @@ export default class GuestLog extends Component {
                                                 day: "numeric",
                                                 hour: "numeric",
                                                 minute: "numeric",
+                                                second: "numeric",
                                                 hour12: false
                                             }).format(postJSON.date)}
                                         </div>
-                                        <div className="post-bio">
-                                            <p>About me: {postJSON.about}</p>
+                                        <div className="w3-group w3-margin-bottom post-bio">
+                                            <label className="w3-label">About me:</label>
+                                            <div className='w3-card w3-padding'>{postJSON.about}</div>
                                         </div>
-                                        <div className="post-message">
-                                            <p>Message: {postJSON.message}</p>
+                                        <div className="w3-group post-message">
+                                            <label className="w3-label">Message:</label>
+                                            <div className='w3-card w3-padding'>{postJSON.message}</div>
                                         </div>
-                                        
                                     </div>
                                 ))
                             }
