@@ -1,10 +1,6 @@
 {
   "name": "cs185-project",
-<<<<<<< HEAD
   "homepage": "http://agprice.github.io/cs185-project-react/",
-=======
-  "homepage": "http://agprice.github.io/cs185-project/",
->>>>>>> 4be2c9aaef9300449c1caaa7317bc6fab1b24552
   "version": "0.1.0",
   "private": true,
   "dependencies": {
