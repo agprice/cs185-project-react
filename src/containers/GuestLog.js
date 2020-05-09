@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import LogForm from './LogForm'
+import LogForm from '../components/LogForm'
 import config from '../config.js'
 
 const firebase = require('firebase')
@@ -18,7 +18,6 @@ export default class GuestLog extends Component {
             snapshot.forEach((childSnapshot) => {
                 postArray.push(childSnapshot.val());
             })
-            console.log(postArray);
             this.setState({
                 data: postArray
             })
@@ -57,6 +56,7 @@ export default class GuestLog extends Component {
         data.forEach((value, key) => { newPost[key] = value });
         newPost['date'] = firebase.database.ServerValue.TIMESTAMP
         firebase.database().ref('data').push().set(newPost);
+        alert("Post Successful");
     }
 
     render() {
@@ -66,13 +66,13 @@ export default class GuestLog extends Component {
                     <h1 className='w3-jumbo'>Guest Log</h1>
                 </header>
                 <div className="w3-row-padding">
-                    <div className='w3-half  w3-container w3-margin-bottom'>
+                    <div className='w3-half w3-animate-opacity w3-container w3-margin-bottom'>
                         <LogForm submitHandler={this.handleFormSubmit} />
                     </div>
-                    <div className='w3-half scrollBox'>
+                    <div className='w3-half w3-animate-opacity scrollBox'>
                         {
                             this.state.data.map((postJSON, index) => (
-                                <div className="guest-post w3-dark-gray">
+                                <div key={index} className="guest-post w3-dark-gray w3-animate-opacity">
                                     <div className="post-info">
                                         {postJSON.name + " "}
                                         {Intl.DateTimeFormat("en-GB", {
