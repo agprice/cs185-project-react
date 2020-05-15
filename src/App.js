@@ -9,6 +9,7 @@ import Portfolio from './components/Portfolio';
 import Images from './components/Images';
 import Videos from './components/Videos';
 import GuestLog from './containers/GuestLog';
+import Movies from './containers/Movies';
 
 export class App extends Component {
   constructor() {
@@ -27,23 +28,33 @@ export class App extends Component {
     const tabs = [
       {
         component: Home,
-        title: 'Home'
+        title: 'Home',
+        icon: 'fa-home'
       },
       {
         component: Portfolio,
-        title: 'Portfolio'
+        title: 'Portfolio',
+        icon: 'fa-folder-open',
       },
       {
         component: Images,
-        title: 'Images'
+        title: 'Images',
+        icon: 'fa-file-image-o'
       },
       {
         component: Videos,
-        title: 'Videos'
+        title: 'Videos',
+        icon: 'fa-video-camera'
       },
       {
         component: GuestLog,
-        title: 'Guest Log'
+        title: 'Guest Log',
+        icon: 'fa-book'
+      },
+      {
+        component: Movies,
+        title: 'Movies',
+        icon: 'fa-film'
       },
     ]
     return (

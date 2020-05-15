@@ -54,7 +54,7 @@ export default class GuestLog extends Component {
 
     componentDidUpdate() {
         // Ensure that auto scrolling doesn't happen until after first load
-        if (this.firstLoad == true) {
+        if (this.firstLoad === true) {
             this.firstLoad = false;
         }
         else {
