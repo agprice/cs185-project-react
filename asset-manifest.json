@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/cs185-project-react/static/css/main.2e6c2dfc.chunk.css",
-    "main.js": "/cs185-project-react/static/js/main.62e2b5ac.chunk.js",
-    "main.js.map": "/cs185-project-react/static/js/main.62e2b5ac.chunk.js.map",
+    "main.css": "/cs185-project-react/static/css/main.93a32df7.chunk.css",
+    "main.js": "/cs185-project-react/static/js/main.dd036464.chunk.js",
+    "main.js.map": "/cs185-project-react/static/js/main.dd036464.chunk.js.map",
     "runtime-main.js": "/cs185-project-react/static/js/runtime-main.f51e5996.js",
     "runtime-main.js.map": "/cs185-project-react/static/js/runtime-main.f51e5996.js.map",
-    "static/js/2.a3b6fafa.chunk.js": "/cs185-project-react/static/js/2.a3b6fafa.chunk.js",
-    "static/js/2.a3b6fafa.chunk.js.map": "/cs185-project-react/static/js/2.a3b6fafa.chunk.js.map",
+    "static/js/2.2443d932.chunk.js": "/cs185-project-react/static/js/2.2443d932.chunk.js",
+    "static/js/2.2443d932.chunk.js.map": "/cs185-project-react/static/js/2.2443d932.chunk.js.map",
     "index.html": "/cs185-project-react/index.html",
-    "precache-manifest.5b7d51b509a7f2a8da89ede4abd94c2a.js": "/cs185-project-react/precache-manifest.5b7d51b509a7f2a8da89ede4abd94c2a.js",
+    "precache-manifest.550f1548d0e8a073a7a378a6f756f668.js": "/cs185-project-react/precache-manifest.550f1548d0e8a073a7a378a6f756f668.js",
     "service-worker.js": "/cs185-project-react/service-worker.js",
-    "static/css/main.2e6c2dfc.chunk.css.map": "/cs185-project-react/static/css/main.2e6c2dfc.chunk.css.map",
-    "static/js/2.a3b6fafa.chunk.js.LICENSE.txt": "/cs185-project-react/static/js/2.a3b6fafa.chunk.js.LICENSE.txt",
+    "static/css/main.93a32df7.chunk.css.map": "/cs185-project-react/static/css/main.93a32df7.chunk.css.map",
+    "static/js/2.2443d932.chunk.js.LICENSE.txt": "/cs185-project-react/static/js/2.2443d932.chunk.js.LICENSE.txt",
     "static/media/Checkout Portals.webm": "/cs185-project-react/static/media/Checkout Portals.b56ded24.webm",
     "static/media/IMG_3234.JPG": "/cs185-project-react/static/media/IMG_3234.8d292be8.JPG",
     "static/media/IMG_3263.JPG": "/cs185-project-react/static/media/IMG_3263.b2293092.JPG",
@@ -31,8 +31,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.f51e5996.js",
-    "static/js/2.a3b6fafa.chunk.js",
-    "static/css/main.2e6c2dfc.chunk.css",
-    "static/js/main.62e2b5ac.chunk.js"
+    "static/js/2.2443d932.chunk.js",
+    "static/css/main.93a32df7.chunk.css",
+    "static/js/main.dd036464.chunk.js"
   ]
 }
