@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styles from '../App.css'
+
 export default class ModalMovie extends Component {
     state = { isOpen: false };
 
@@ -22,7 +22,7 @@ export default class ModalMovie extends Component {
 
     render() {
         return (
-            <div className='w3-quarter'>
+            <div>
                 <img
                     className="w3-hover-opacity"
                     src={this.props.src}

@@ -36,11 +36,11 @@ export default class Movies extends Component {
                     <p>Legendary Movies of Great Quality</p>
                 </header>
 
-                <div className='w3-row-padding'>
-                    {this.state.movies.map((movieJSON, index) => (
-                        <ModalMovie key={index} movieJSON={movieJSON} src={movieJSON.Poster} />
-                    ))}
-                </div>
+                    <div className='w3-margin movie_grid'>
+                        {this.state.movies.map((movieJSON, index) => (
+                            <ModalMovie key={index} movieJSON={movieJSON} src={movieJSON.Poster} />
+                        ))}
+                    </div>
             </div>
         )
     }
