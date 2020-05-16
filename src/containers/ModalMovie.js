@@ -46,7 +46,7 @@ export default class ModalMovie extends Component {
                                         Metacritic: {this.props.movieJSON.Ratings[2].Value}
                                     </div>
                                 </div>
-                                <div className="w3-margin">
+                                <div className="w3-margin w3-left-align">
                                     Directed by <b>{this.props.movieJSON.Director}</b>
                                 </div>
                             </div>
