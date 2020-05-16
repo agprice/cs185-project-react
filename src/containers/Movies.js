@@ -19,14 +19,13 @@ export default class Movies extends Component {
     }
 
     componentDidMount() {
-        axios.get('https://www.omdbapi.com/?apikey=fe15e914&i=tt0120737')
-            .then(response => {
-                this.addMovie(response.data);
-            })
-        axios.get('https://www.omdbapi.com/?apikey=fe15e914&i=tt0167261')
-            .then(response => {
-                this.addMovie(response.data);
-            })
+        var data = require('../json/movies.json');
+        data.movies.map((movieID, index) => (
+            axios.get('https://www.omdbapi.com/?apikey=fe15e914&i=' + movieID)
+                .then(response => {
+                    this.addMovie(response.data);
+                })
+        ));
     }
 
     render() {
@@ -39,7 +38,7 @@ export default class Movies extends Component {
 
                 <div className='w3-row-padding'>
                     {this.state.movies.map((movieJSON, index) => (
-                        <ModalMovie alt={movieJSON.Title} src={movieJSON.Poster} />
+                        <ModalMovie key={index} movieJSON={movieJSON} src={movieJSON.Poster} />
                     ))}
                 </div>
             </div>
