@@ -13,9 +13,7 @@ export default class Movies extends Component {
         this.deleteMovieHandler = this.deleteMovieHandler.bind(this);
         this.addMovie = (movie) => {
             var movieList = this.state.movies;
-            console.log(movie);
             movieList[movie.imdbID] = movie;
-            console.log(Object.keys(movieList));
             this.setState({
                 movies: movieList
             })
@@ -38,35 +36,35 @@ export default class Movies extends Component {
     }
 
     updateMovieList(snapshot) {
-        console.log(this.state.movies);
         snapshot.forEach((movieSnapshot) => {
-            console.log("Updating movie list", movieSnapshot.key);
-            this.grabMetaAndAddByID(movieSnapshot.key);
+            if (this.state.movies[movieSnapshot.key] == undefined) {
+                console.log("Updating movie list with movie:", movieSnapshot.key);
+                this.addMovie(movieSnapshot.child('meta').val());
+            }
         })
-    }
-
-    grabMetaAndAddByID(movieID) {
-        if (this.state.movies[movieID] == undefined) {
-            console.log("Adding movie:", movieID);
-            axios.get('https://www.omdbapi.com/?apikey=fe15e914&i=' + movieID).then(response => {
-                this.addMovie(response.data);
-            })
-        }
     }
 
     addMovieFormHandler(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        this.props.firebase.database().ref('movies/' + data.get('movieID')).set({
-            lists: {
-                WannaWatch: true
-            }
-        })
+        var movieID = data.get('movieID');
+        if (this.state.movies[movieID] == undefined) {
+            console.log("Querying OMDb for title:", movieID)
+            axios.get('https://www.omdbapi.com/?apikey=fe15e914&i=' + movieID).then(response => {
+                this.props.firebase.database().ref('movies/' + data.get('movieID')).set({
+                    meta: response.data,
+                    lists: {
+                        WannaWatch: true
+                    }
+                })
+
+            })
+        }
         event.target.reset();
     }
 
     deleteMovieHandler(movieID) {
-        console.log("Deleteing movie: ", movieID);
+        console.log("Deleting movie:", movieID);
         this.props.firebase.database().ref('movies/' + movieID).remove();
         this.removeMovie(movieID);
     }
