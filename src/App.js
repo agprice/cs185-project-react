@@ -10,6 +10,11 @@ import Images from './components/Images';
 import Videos from './components/Videos';
 import GuestLog from './containers/GuestLog';
 import Movies from './containers/Movies';
+import config from './config.js'
+
+// Setup the firebase reference as global
+const firebase = require('firebase')
+
 
 export class App extends Component {
   constructor() {
@@ -21,6 +26,13 @@ export class App extends Component {
       this.setState({
         activeTab: component
       })
+    }
+  }
+
+  // Initialize the firebase database on app startup
+  componentDidMount() {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
     }
   }
 
@@ -63,7 +75,7 @@ export class App extends Component {
           ShowAtPosition={30}
         />
         <TabList tabs={tabs} activeTab={this.state.activeTab} changeTab={this.changeTab} />
-        <Body changeTab={this.changeTab} activeTab={this.state.activeTab} />
+        <Body firebase={firebase} changeTab={this.changeTab} activeTab={this.state.activeTab} />
       </div>
     );
   }

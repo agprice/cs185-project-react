@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import LogForm from '../components/LogForm'
-import config from '../config.js'
-
-const firebase = require('firebase')
 
 export default class GuestLog extends Component {
 
@@ -34,11 +31,7 @@ export default class GuestLog extends Component {
      * Setup the firebase database when the component is initialized
      */
     componentDidMount() {
-        if (!firebase.apps.length) {
-            firebase.initializeApp(config);
-        }
-
-        let ref = firebase.database().ref('data');
+        let ref = this.props.firebase.database().ref('data');
 
         //retrieve its data
         ref.orderByChild("public").equalTo("true").on('value', snapshot => {
@@ -71,8 +64,8 @@ export default class GuestLog extends Component {
         const data = new FormData(event.target);
         var newPost = {};
         data.forEach((value, key) => { newPost[key] = value });
-        newPost['date'] = firebase.database.ServerValue.TIMESTAMP
-        firebase.database().ref('data').push().set(newPost);
+        newPost['date'] = this.props.firebase.database.ServerValue.TIMESTAMP
+        this.props.firebase.database().ref('data').push().set(newPost);
         alert("Post Successful");
     }
 
