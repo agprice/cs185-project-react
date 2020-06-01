@@ -17,6 +17,7 @@ export default class ModalMovie extends Component {
     }
 
     getMoviesListsCallback(snapshot) {
+        console.log("Settings the movie modal", snapshot.val())
         this.memberList = snapshot.val();
     }
 

@@ -34,7 +34,8 @@ export default class Movies extends Component {
             var movieList = this.state.movies;
             delete movieList[movieID]
             this.setState({
-                movies: movieList
+                movies: movieList,
+                displayedMovies: movieList
             })
         }
         this.setLists = newLists => {
@@ -85,6 +86,8 @@ export default class Movies extends Component {
     // Handles adding new movies on form submission
     addMovieFormHandler(event) {
         event.preventDefault();
+        this.setMovieListHandler({ value: "All" });
+        this.selectedList = this.options[0];
         const data = new FormData(event.target);
         var movieID = data.get('movieID');
         // Only add the movie if it doesn't already exist
@@ -110,19 +113,18 @@ export default class Movies extends Component {
                     imdbID: response.data.imdbID
                 }
                 // Push new movie into the database
-                this.props.firebase.database().ref('lists/All/' + data.get('movieID')).set({
+                let newMovie = {
                     meta: relevantMeta
-                })
+                };
+                this.props.firebase.database().ref('lists/All/' + data.get('movieID')).set(newMovie);
+                this.addMovie(newMovie);
             })
         }
-        this.selectedList = this.options[0];
         event.target.reset();
     }
 
     deleteMovieHandler(movieID) {
         console.log("Deleting movie:", movieID);
-        // Set the list selection back to 'all'.
-        this.selectedList = this.options[0];
         // Find all the lists this movie is on
         this.props.firebase.database().ref('lists/All/' + movieID + '/lists').once('value').then((snapshot) => {
             snapshot.forEach(movieSnapshot => {
@@ -132,9 +134,12 @@ export default class Movies extends Component {
             });
             // Delete the movie from the All list
             this.props.firebase.database().ref('lists/All/' + movieID).remove();
+            // Remove movie from the GUI
+            this.removeMovie(movieID);
+            // Set the list selection back to 'all'.
+            this.setMovieListHandler({ value: "All" });
+            this.selectedList = this.options[0];
         });
-        // Remove movie from the GUI
-        this.removeMovie(movieID);
     }
 
     addListHandler(event) {
@@ -207,11 +212,13 @@ export default class Movies extends Component {
         this.databaseLimit += this.loadMoreAmount;
 
         // TODO: need to refer to the current movie list
-        var movieRef = this.props.firebase.database().ref('lists/' + this.selectedList.value);
-        console.log("Incrementing videos");
-        movieRef.limitToFirst(this.databaseLimit).once('value', snapshot => {
-            this.updateMovieListCallback(snapshot);
-        });
+        if (this.selectedList.value !== undefined) {
+            var movieRef = this.props.firebase.database().ref('lists/' + this.selectedList.value);
+            console.log("Incrementing videos");
+            movieRef.limitToFirst(this.databaseLimit).once('value', snapshot => {
+                this.updateMovieListCallback(snapshot);
+            });
+        }
     }
 
     render() {
@@ -220,7 +227,7 @@ export default class Movies extends Component {
             this.selectedList = this.options[0];
         }
         return (
-            <div className='w3-padding-large' id='main'>
+            <div className='w3-center w3-padding-large' id='main'>
                 <header className='w3-container w3-padding-32 w3-center w3-black' id='home'>
                     <h1 className='w3-jumbo'>Movies</h1>
                     <p>Legendary Movies of Great Quality</p>
