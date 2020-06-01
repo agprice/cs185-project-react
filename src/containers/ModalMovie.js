@@ -26,7 +26,9 @@ export default class ModalMovie extends Component {
         const opts = [];
         if (this.props.lists != null) {
             Object.keys(this.props.lists).forEach((key) => {
-                opts.push({ value: key, label: key });
+                // Don't allow the user to add to the 'all' list
+                if (key != 'All')
+                    opts.push({ value: key, label: key });
             })
         }
         return opts;
