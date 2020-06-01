@@ -10,17 +10,20 @@ export default class Movies extends Component {
         super();
         this.state = {
             lists: {},
-            movies: {}
+            movies: {},
+            displayedMovies: {}
         }
         this.deleteMovieHandler = this.deleteMovieHandler.bind(this);
         this.listSelectHandler = this.listSelectHandler.bind(this);
         this.setMovieListHandler = this.setMovieListHandler.bind(this);
+        this.searchHandler = this.searchHandler.bind(this);
         var selectedList;
         this.addMovie = (movie) => {
             var movieList = this.state.movies;
             movieList[movie.imdbID] = movie;
             this.setState({
-                movies: movieList
+                movies: movieList,
+                displayedMovies: movieList
             })
         }
         this.removeMovie = (movieID) => {
@@ -38,6 +41,11 @@ export default class Movies extends Component {
         this.clearMovies = () => {
             this.setState({
                 movies: {}
+            })
+        }
+        this.setDisplayedMovies = (movies) => {
+            this.setState({
+                displayedMovies: movies
             })
         }
     }
@@ -79,6 +87,10 @@ export default class Movies extends Component {
             console.log("Querying OMDb for title:", movieID)
             // Grab movie metadata from OMDb
             axios.get('https://www.omdbapi.com/?apikey=fe15e914&i=' + movieID).then(response => {
+                if (response.data.Response === 'False') {
+                    alert("Invalid IMDB ID")
+                    return;
+                }
                 // Thin the data for website database. This makes the database lighter.
                 var relevantMeta = {
                     Title: response.data.Title,
@@ -94,14 +106,11 @@ export default class Movies extends Component {
                 }
                 // Push new movie into the database
                 this.props.firebase.database().ref('lists/All/' + data.get('movieID')).set({
-                    meta: relevantMeta,
-                    lists: {
-                        WannaWatch: true
-                    }
+                    meta: relevantMeta
                 })
             })
         }
-        
+
         event.target.reset();
     }
 
@@ -165,6 +174,25 @@ export default class Movies extends Component {
         });
     }
 
+    filterQuery(obj, predicate) {
+        return Object.fromEntries(Object.entries(obj).filter(predicate));
+    }
+
+    searchHandler(event) {
+        if (event.target.value !== "") {
+
+            var filtered = "hi";
+            filtered = this.filterQuery(this.state.movies, ([movieID, Meta]) => {
+                const filter = event.target.value.toLowerCase();
+                let result = Meta.Title.toLowerCase().includes(filter)
+                return result;
+            })
+            this.setDisplayedMovies(filtered);
+        }
+        else {
+            this.setDisplayedMovies(this.state.movies);
+        }
+    }
 
     render() {
         this.options = this.getOptions();
@@ -182,10 +210,11 @@ export default class Movies extends Component {
                     <input placeholder="Add new Movie List, letter and numbers only" pattern="[A-Za-z0-9 ]{1,50}" className="w3-input" type="text" name="listName" required />
                     <input type="submit" value="Add List" />
                 </form>
+                <input onChange={this.searchHandler} className='w3-group w3-white w3-input' type="text" placeholder="Search..." />
                 <Select value={this.selectedList} isSearchable={true} className='w3-group w3-white' name="MovieList" onChange={this.setMovieListHandler} options={this.options} />
                 <div className='w3-margin movie_grid'>
-                    {Object.keys(this.state.movies).map((movieID, index) => (
-                        <ModalMovie handleListSelect={this.listSelectHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.movies[movieID]} src={this.state.movies[movieID].Poster} />
+                    {Object.keys(this.state.displayedMovies).map((movieID, index) => (
+                        <ModalMovie handleListSelect={this.listSelectHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].Poster} />
                     ))}
                 </div>
             </div>
