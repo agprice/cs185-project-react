@@ -11,7 +11,9 @@ export default class Movies extends Component {
         this.state = {
             lists: {},
             movies: {},
-            displayedMovies: {}
+            displayedMovies: {},
+            movieCount: 0,
+            databaseLimit: 8
         }
         this.deleteMovieHandler = this.deleteMovieHandler.bind(this);
         this.addToListHandler = this.addToListHandler.bind(this);
@@ -19,7 +21,6 @@ export default class Movies extends Component {
         this.searchHandler = this.searchHandler.bind(this);
         this.incrementVisibleMovies = this.incrementVisibleMovies.bind(this);
 
-        this.databaseLimit = 8;
         this.loadMoreAmount = 8;
 
         this.addMovie = (movie) => {
@@ -54,24 +55,38 @@ export default class Movies extends Component {
                 displayedMovies: movies
             })
         }
+        this.setMovieCount = (count) => {
+            this.setState({
+                movieCount: count
+            })
+        }
+        this.setDatabaseLimit = (count) => {
+            this.setState({
+                databaseLimit: count
+            })
+        }
     }
 
     componentDidMount() {
         // Grab a reference to movies, link updates to the updateMovieList function
         var movieRef = this.props.firebase.database().ref('lists/All/');
-        movieRef.limitToFirst(this.databaseLimit).once('value').then(snapshot => {
+        movieRef.limitToFirst(this.state.databaseLimit).once('value').then(snapshot => {
             this.updateMovieListCallback(snapshot);
         });
         var listsRef = this.props.firebase.database().ref('lists/');
         listsRef.on('value', snapshot => {
             this.updateListsCallback(snapshot);
         });
+        this.props.firebase.database().ref('lists/All/count').once('value').then(snapshot => {
+            this.setMovieCount(snapshot.val())
+            console.log("There are", this.state.movieCount, "movies in the database.")
+        });
     }
 
     // Handles callbacks when the movies database elements are updated
     updateMovieListCallback(snapshot) {
         snapshot.forEach((movieSnapshot) => {
-            if (this.state.movies[movieSnapshot.key] === undefined && movieSnapshot.key !== 'active') {
+            if (this.state.movies[movieSnapshot.key] === undefined && movieSnapshot.key !== 'count') {
                 console.log("First Time, Updating movie list with movie:", movieSnapshot.key);
                 this.addMovie(movieSnapshot.val());
             }
@@ -91,36 +106,52 @@ export default class Movies extends Component {
         const data = new FormData(event.target);
         var movieID = data.get('movieID');
         // Only add the movie if it doesn't already exist
-        if (this.state.movies[movieID] == undefined) {
-            console.log("Querying OMDb for title:", movieID)
-            // Grab movie metadata from OMDb
-            axios.get('https://www.omdbapi.com/?apikey=fe15e914&i=' + movieID).then(response => {
-                if (response.data.Response === 'False') {
-                    alert("Invalid IMDB ID")
-                    return;
+        if (this.state.movies[movieID] === undefined) {
+            this.props.firebase.database().ref("lists/All/" + movieID).once('value', (snapshot) => {
+                if (snapshot.val() === null) {
+                    console.log("Querying OMDb for title:", movieID)
+                    // Grab movie metadata from OMDb
+                    axios.get('https://www.omdbapi.com/?apikey=fe15e914&i=' + movieID).then(response => {
+                        if (response.data.Response === 'False') {
+                            alert("Invalid IMDB ID")
+                            return;
+                        }
+                        // Thin the data for website database. This makes the database lighter.
+                        var relevantMeta = {
+                            Title: response.data.Title,
+                            Ratings: response.data.Ratings,
+                            Director: response.data.Director,
+                            Plot: response.data.Plot,
+                            Poster: response.data.Poster,
+                            Language: response.data.Language,
+                            Released: response.data.Released,
+                            Rated: response.data.Rated,
+                            Type: response.data.Type,
+                            imdbID: response.data.imdbID
+                        }
+                        // Push new movie into the database
+                        let newMovie = {
+                            meta: relevantMeta
+                        };
+                        this.props.firebase.database().ref('lists/All/' + data.get('movieID')).set(newMovie);
+                        this.updateMovieCount(1, 'All');
+                        this.addMovie(newMovie);
+                    });
                 }
-                // Thin the data for website database. This makes the database lighter.
-                var relevantMeta = {
-                    Title: response.data.Title,
-                    Ratings: response.data.Ratings,
-                    Director: response.data.Director,
-                    Plot: response.data.Plot,
-                    Poster: response.data.Poster,
-                    Language: response.data.Language,
-                    Released: response.data.Released,
-                    Rated: response.data.Rated,
-                    Type: response.data.Type,
-                    imdbID: response.data.imdbID
-                }
-                // Push new movie into the database
-                let newMovie = {
-                    meta: relevantMeta
-                };
-                this.props.firebase.database().ref('lists/All/' + data.get('movieID')).set(newMovie);
-                this.addMovie(newMovie);
             })
         }
         event.target.reset();
+    }
+
+    // This function keeps track of the number of movies in the database
+    updateMovieCount(amount, list) {
+        this.props.firebase.database().ref('lists/' + list + '/count').once('value', (snapshot) =>{
+            console.log("Grabbed value,", snapshot.key);
+            let newCount = snapshot.val() + amount;
+            this.setMovieCount(newCount);
+            this.props.firebase.database().ref('lists/' + list + '/count').set(newCount);
+
+        })
     }
 
     deleteMovieHandler(movieID) {
@@ -129,6 +160,8 @@ export default class Movies extends Component {
         this.props.firebase.database().ref('lists/All/' + movieID + '/lists').once('value').then((snapshot) => {
             snapshot.forEach(movieSnapshot => {
                 console.log("Snapshot delete val:", movieSnapshot.key);
+                // Decrement the list value
+                this.updateMovieCount(-1, movieSnapshot.key)
                 // Delete the movie from all the lists
                 this.props.firebase.database().ref('lists/' + movieSnapshot.key + '/' + movieID).remove();
             });
@@ -138,7 +171,9 @@ export default class Movies extends Component {
             this.removeMovie(movieID);
             // Set the list selection back to 'all'.
             this.setMovieListHandler({ value: "All" });
-            this.selectedList = this.options[0];
+            this.updateMovieCount(-1, 'All');
+            // Select the list all?? TODO Delete
+            // this.selectedList = this.options[0];
         });
     }
 
@@ -146,7 +181,7 @@ export default class Movies extends Component {
         event.preventDefault();
         const data = new FormData(event.target);
         this.props.firebase.database().ref('lists/' + data.get('listName')).set({
-            active: true
+            count: 0
         })
         event.target.reset();
     }
@@ -155,6 +190,10 @@ export default class Movies extends Component {
         console.log("List Selected:", movieID, list);
         // Add this movie to the list
         this.props.firebase.database().ref('lists/' + list.value + '/' + movieID).set(this.state.movies[movieID]);
+        let countRef = this.props.firebase.database().ref('lists/' + list.value + '/count')
+        countRef.once('value', (snapshot) => {
+            countRef.set(snapshot.val() + 1);
+        });
         // Update the lists that this movie is a part of
         this.props.firebase.database().ref('lists/All/' + movieID + '/lists/' + list.value).set(true);
     }
@@ -171,19 +210,26 @@ export default class Movies extends Component {
 
     // Select a movie list to display
     setMovieListHandler(movieList) {
-        console.log("Setting active list to:", movieList.value);
-        // Ensure the dropdown menu tracks the selected entry
-        this.selectedList = movieList;
-        // Clear out the list of movies to populate it with a new list
-        this.clearMovies();
-        this.props.firebase.database().ref('lists/' + movieList.value).limitToFirst(this.databaseLimit + 1).once('value').then((snapshot) => {
-            snapshot.forEach((movieSnapshot) => {
-                if (this.state.movies[movieSnapshot.key] === undefined && movieSnapshot.key != 'active') {
-                    console.log("Updating movie list with movie:", movieSnapshot.key);
-                    this.addMovie(movieSnapshot.val());
-                }
-            });
-        });
+        // Only change the list if we're not already on that list
+        if (this.selectedList.value !== movieList.value) {
+            console.log("Setting active list to:", movieList.value);
+            // Ensure the dropdown menu tracks the selected entry
+            this.selectedList = movieList;
+            // Clear out the list of movies to populate it with a new list
+            this.clearMovies();
+            this.props.firebase.database().ref('lists/' + movieList.value + '/count').once('value', (snapshot) => {
+                let newMovieCount = snapshot.val();
+                this.setMovieCount(newMovieCount);
+                this.props.firebase.database().ref('lists/' + movieList.value).limitToFirst(newMovieCount + 1).once('value').then((snapshot) => {
+                    snapshot.forEach((movieSnapshot) => {
+                        if (this.state.movies[movieSnapshot.key] === undefined && movieSnapshot.key !== 'count') {
+                            console.log("Updating movie list with movie:", movieSnapshot.key);
+                            this.addMovie(movieSnapshot.val());
+                        }
+                    });
+                });
+            })
+        }
     }
 
     // helper for search
@@ -209,13 +255,12 @@ export default class Movies extends Component {
 
     // Load more button
     incrementVisibleMovies() {
-        this.databaseLimit += this.loadMoreAmount;
-
-        // TODO: need to refer to the current movie list
+        let newDataBaseLimit = this.state.databaseLimit + this.loadMoreAmount;
+        this.setDatabaseLimit(newDataBaseLimit);
         if (this.selectedList.value !== undefined) {
             var movieRef = this.props.firebase.database().ref('lists/' + this.selectedList.value);
-            console.log("Incrementing videos");
-            movieRef.limitToFirst(this.databaseLimit).once('value', snapshot => {
+            console.log("Incrementing videos, new amount is:", this.state.databaseLimit);
+            movieRef.limitToFirst(newDataBaseLimit).once('value', snapshot => {
                 this.updateMovieListCallback(snapshot);
             });
         }
@@ -254,9 +299,14 @@ export default class Movies extends Component {
                         <ModalMovie firebase={this.props.firebase} handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].meta.Poster} />
                     ))}
                 </div>
-                <button onClick={this.incrementVisibleMovies} className="w3-dark-gray w3-padding w3-button w3-round-large w3-center">
-                    load more
-                </button>
+                {this.state.movieCount},
+                {this.state.databaseLimit}
+                {this.state.movieCount >= this.state.databaseLimit ?
+                    (<button onClick={this.incrementVisibleMovies} className="w3-dark-gray w3-padding w3-button w3-round-large w3-center">
+                        load more
+                    </button>)
+                    : null
+                }
             </div>
         )
     }

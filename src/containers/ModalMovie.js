@@ -48,7 +48,7 @@ export default class ModalMovie extends Component {
             }
             filtered.forEach((key) => {
                 // Don't allow the user to add to the 'all' list
-                if (key != 'All')
+                if (key !== 'All')
                     opts.push({ value: key, label: key });
             })
         }
