@@ -190,10 +190,9 @@ export default class Movies extends Component {
     searchHandler(event) {
         if (event.target.value !== "") {
 
-            var filtered = "hi";
-            filtered = this.filterQuery(this.state.movies, ([movieID, Meta]) => {
+            var filtered = this.filterQuery(this.state.movies, ([movieID, Meta]) => {
                 const filter = event.target.value.toLowerCase();
-                let result = Meta.Title.toLowerCase().includes(filter)
+                let result = Meta.meta.Title.toLowerCase().includes(filter)
                 return result;
             })
             this.setDisplayedMovies(filtered);
