@@ -5,7 +5,9 @@ export default class ModalMovie extends Component {
     state = { isOpen: false };
     constructor() {
         super()
-        this.memberList = 'hi';
+        this.state = {
+            memberList: ''
+        }
         this.getOptions = this.getOptions.bind(this);
     }
     componentDidMount() {
@@ -17,11 +19,14 @@ export default class ModalMovie extends Component {
     }
 
     getMoviesListsCallback(snapshot) {
-        console.log("Settings the movie modal", snapshot.val())
-        this.memberList = snapshot.val();
+        console.log("Setting the movie modal", snapshot.val(), this.props.movieJSON.meta.imdbID)
+        this.setState({
+            memberList: snapshot.val()
+        })
     }
 
     handleShowDialog = () => {
+        console.log("Modal has memberlist", this.state.memberList);
         this.setState({ isOpen: !this.state.isOpen });
         if (this.state.isOpen === false) {
             document.body.style.overflow = 'hidden';
@@ -42,9 +47,9 @@ export default class ModalMovie extends Component {
         const opts = [];
         if (this.props.lists != null) {
             let filtered = Object.keys(this.props.lists);
-            if (this.memberList !== null) {
-                console.log(this.memberList)
-                filtered = Object.keys(this.props.lists).filter(x => !Object.keys(this.memberList).includes(x))
+            if (this.state.memberList !== null) {
+                console.log("This object has membership in lists", this.state.memberList)
+                filtered = Object.keys(this.props.lists).filter(x => !Object.keys(this.state.memberList).includes(x))
             }
             filtered.forEach((key) => {
                 // Don't allow the user to add to the 'all' list
