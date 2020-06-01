@@ -146,7 +146,7 @@ export default class Movies extends Component {
         })
         event.target.reset();
     }
-
+    // Adds a movie to a list
     addToListHandler(movieID, list) {
         console.log("List Selected:", movieID, list);
         // Add this movie to the list
@@ -240,7 +240,7 @@ export default class Movies extends Component {
                 <Select value={this.selectedList} isSearchable={true} className='w3-group w3-white' name="MovieList" onChange={this.setMovieListHandler} options={this.options} />
                 <div className='w3-margin movie_grid'>
                     {Object.keys(this.state.displayedMovies).map((movieID, index) => (
-                        <ModalMovie handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].meta.Poster} />
+                        <ModalMovie firebase={this.props.firebase} handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].meta.Poster} />
                     ))}
                 </div>
                 {this.selectedList?.value === 'All' ? <button onClick={this.incrementVisibleMovies} className="w3-dark-gray w3-padding w3-button w3-round-large w3-center">

@@ -3,7 +3,22 @@ import Select from 'react-select'
 
 export default class ModalMovie extends Component {
     state = { isOpen: false };
+    constructor() {
+        super()
+        this.memberList = 'hi';
+        this.getOptions = this.getOptions.bind(this);
+    }
+    componentDidMount() {
+        // Grab a reference to movies, link updates to the updateMovieList function
+        var movieRef = this.props.firebase.database().ref('lists/All/' + this.props.movieJSON.meta.imdbID + '/lists');
+        movieRef.on('value', snapshot => {
+            this.getMoviesListsCallback(snapshot);
+        });
+    }
 
+    getMoviesListsCallback(snapshot) {
+        this.memberList = snapshot.val();
+    }
 
     handleShowDialog = () => {
         this.setState({ isOpen: !this.state.isOpen });
@@ -25,7 +40,12 @@ export default class ModalMovie extends Component {
         console.log("Getting list options for movie modal", this.props.movieJSON)
         const opts = [];
         if (this.props.lists != null) {
-            Object.keys(this.props.lists).forEach((key) => {
+            let filtered = Object.keys(this.props.lists);
+            if (this.memberList !== null) {
+                console.log(this.memberList)
+                filtered = Object.keys(this.props.lists).filter(x => !Object.keys(this.memberList).includes(x))
+            }
+            filtered.forEach((key) => {
                 // Don't allow the user to add to the 'all' list
                 if (key != 'All')
                     opts.push({ value: key, label: key });
