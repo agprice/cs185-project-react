@@ -24,9 +24,11 @@ export default class ModalMovie extends Component {
     getOptions() {
         console.log("Getting list options for movie modal")
         const opts = [];
-        Object.keys(this.props.lists).forEach((key) => {
-            opts.push({ value: key, label: key });
-        })
+        if (this.props.lists != null) {
+            Object.keys(this.props.lists).forEach((key) => {
+                opts.push({ value: key, label: key });
+            })
+        }
         return opts;
     }
 

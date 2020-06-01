@@ -12,6 +12,8 @@ export default class Movies extends Component {
             movies: {}
         }
         this.deleteMovieHandler = this.deleteMovieHandler.bind(this);
+        this.listSelectHandler = this.listSelectHandler.bind(this);
+
         this.addMovie = (movie) => {
             var movieList = this.state.movies;
             movieList[movie.imdbID] = movie;
@@ -106,14 +108,16 @@ export default class Movies extends Component {
     addListHandler(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        this.props.firebase.database().ref('lists/' + data.get('listName')).update({
-            active: false
-        })
+        this.props.firebase.database().ref('lists/' + data.get('listName')).set(true)
         event.target.reset();
     }
 
     listSelectHandler(movieID, list) {
         console.log("List Selected:", movieID, list);
+        // Add this movie to the list
+        this.props.firebase.database().ref('lists/' + list.value + '/' + movieID).set({ meta: this.state.movies[movieID] });
+        // Update the lists that this movie is a part of
+        this.props.firebase.database().ref('movies/' + movieID + '/lists/' + list.value).set(true);
     }
 
     render() {
