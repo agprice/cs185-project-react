@@ -18,7 +18,6 @@ export default class Movies extends Component {
         this.setMovieListHandler = this.setMovieListHandler.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
         this.incrementVisibleMovies = this.incrementVisibleMovies.bind(this);
-        var selectedList;
 
         this.databaseLimit = 8;
         this.loadMoreAmount = 8;
@@ -59,7 +58,7 @@ export default class Movies extends Component {
     componentDidMount() {
         // Grab a reference to movies, link updates to the updateMovieList function
         var movieRef = this.props.firebase.database().ref('lists/All/');
-        movieRef.limitToFirst(this.databaseLimit).on('value', snapshot => {
+        movieRef.limitToFirst(this.databaseLimit).once('value').then(snapshot => {
             this.updateMovieListCallback(snapshot);
         });
         var listsRef = this.props.firebase.database().ref('lists/');
@@ -71,8 +70,8 @@ export default class Movies extends Component {
     // Handles callbacks when the movies database elements are updated
     updateMovieListCallback(snapshot) {
         snapshot.forEach((movieSnapshot) => {
-            if (this.state.movies[movieSnapshot.key] == undefined) {
-                console.log("Updating movie list with movie:", movieSnapshot.key);
+            if (this.state.movies[movieSnapshot.key] === undefined && movieSnapshot.key !== 'active') {
+                console.log("First Time, Updating movie list with movie:", movieSnapshot.key);
                 this.addMovie(movieSnapshot.val());
             }
         })
@@ -172,7 +171,7 @@ export default class Movies extends Component {
         this.selectedList = movieList;
         // Clear out the list of movies to populate it with a new list
         this.clearMovies();
-        this.props.firebase.database().ref('lists/' + movieList.value).once('value').then((snapshot) => {
+        this.props.firebase.database().ref('lists/' + movieList.value).limitToFirst(this.databaseLimit + 1).once('value').then((snapshot) => {
             snapshot.forEach((movieSnapshot) => {
                 if (this.state.movies[movieSnapshot.key] === undefined && movieSnapshot.key != 'active') {
                     console.log("Updating movie list with movie:", movieSnapshot.key);
@@ -207,14 +206,13 @@ export default class Movies extends Component {
     // Load more button
     incrementVisibleMovies() {
         this.databaseLimit += this.loadMoreAmount;
-        if (this.selectedList.value === 'All') {
-            // TODO: need to refer to the current movie list
-            var movieRef = this.props.firebase.database().ref('lists/All/');
-            movieRef.limitToFirst(this.databaseLimit).on('value', snapshot => {
-                this.updateMovieListCallback(snapshot);
-            });
 
-        }
+        // TODO: need to refer to the current movie list
+        var movieRef = this.props.firebase.database().ref('lists/' + this.selectedList.value);
+        console.log("Incrementing videos");
+        movieRef.limitToFirst(this.databaseLimit).once('value', snapshot => {
+            this.updateMovieListCallback(snapshot);
+        });
     }
 
     render() {
@@ -243,10 +241,9 @@ export default class Movies extends Component {
                         <ModalMovie firebase={this.props.firebase} handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].meta.Poster} />
                     ))}
                 </div>
-                {this.selectedList?.value === 'All' ? <button onClick={this.incrementVisibleMovies} className="w3-dark-gray w3-padding w3-button w3-round-large w3-center">
+                <button onClick={this.incrementVisibleMovies} className="w3-dark-gray w3-padding w3-button w3-round-large w3-center">
                     load more
-                </button> : null}
-
+                </button>
             </div>
         )
     }
