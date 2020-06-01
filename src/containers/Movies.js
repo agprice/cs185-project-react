@@ -14,10 +14,15 @@ export default class Movies extends Component {
             displayedMovies: {}
         }
         this.deleteMovieHandler = this.deleteMovieHandler.bind(this);
-        this.listSelectHandler = this.addToListHandler.bind(this);
+        this.addToListHandler = this.addToListHandler.bind(this);
         this.setMovieListHandler = this.setMovieListHandler.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
+        this.incrementVisibleMovies = this.incrementVisibleMovies.bind(this);
         var selectedList;
+
+        this.databaseLimit = 8;
+        this.loadMoreAmount = 8;
+
         this.addMovie = (movie) => {
             var movieList = this.state.movies;
             movieList[movie.imdbID] = movie;
@@ -54,7 +59,7 @@ export default class Movies extends Component {
     componentDidMount() {
         // Grab a reference to movies, link updates to the updateMovieList function
         var movieRef = this.props.firebase.database().ref('lists/All/');
-        movieRef.on('value', snapshot => {
+        movieRef.limitToFirst(this.databaseLimit).on('value', snapshot => {
             this.updateMovieListCallback(snapshot);
         });
         var listsRef = this.props.firebase.database().ref('lists/');
@@ -163,6 +168,8 @@ export default class Movies extends Component {
     // Select a movie list to display
     setMovieListHandler(movieList) {
         console.log("Setting active list to:", movieList.value);
+        // Ensure the dropdown menu tracks the selected entry
+        this.selectedList = movieList;
         // Clear out the list of movies to populate it with a new list
         this.clearMovies();
         this.props.firebase.database().ref('lists/' + movieList.value).once('value').then((snapshot) => {
@@ -195,8 +202,23 @@ export default class Movies extends Component {
         }
     }
 
+    incrementVisibleMovies() {
+        this.databaseLimit += this.loadMoreAmount;
+        if (this.selectedList.value === 'All') {
+            // TODO: need to refer to the current movie list
+            var movieRef = this.props.firebase.database().ref('lists/All/');
+            movieRef.limitToFirst(this.databaseLimit).on('value', snapshot => {
+                this.updateMovieListCallback(snapshot);
+            });
+
+        }
+    }
+
     render() {
         this.options = this.getOptions();
+        if (this.selectedList === undefined) {
+            this.selectedList = this.options[0];
+        }
         return (
             <div className='w3-center w3-padding-large w3-container' id='main'>
                 <header className='w3-container w3-padding-32 w3-center w3-black' id='home'>
@@ -218,6 +240,10 @@ export default class Movies extends Component {
                         <ModalMovie handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].Poster} />
                     ))}
                 </div>
+                {this.selectedList?.value === 'All' ? <button onClick={this.incrementVisibleMovies} className="w3-dark-gray w3-padding w3-button w3-round-large w3-center">
+                    load more
+                </button> : null}
+
             </div>
         )
     }
