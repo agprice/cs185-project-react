@@ -13,7 +13,8 @@ export default class Movies extends Component {
             movies: {},
             displayedMovies: {},
             movieCount: 0,
-            databaseLimit: 8
+            databaseLimit: 8,
+            search: ""
         }
         this.deleteMovieHandler = this.deleteMovieHandler.bind(this);
         this.addToListHandler = this.addToListHandler.bind(this);
@@ -33,10 +34,12 @@ export default class Movies extends Component {
         }
         this.removeMovie = (movieID) => {
             var movieList = this.state.movies;
+            var displayedMovies = this.state.displayedMovies;
             delete movieList[movieID]
+            delete displayedMovies[movieID]
             this.setState({
                 movies: movieList,
-                displayedMovies: movieList
+                displayedMovies: displayedMovies
             })
         }
         this.setLists = newLists => {
@@ -63,6 +66,11 @@ export default class Movies extends Component {
         this.setDatabaseLimit = (count) => {
             this.setState({
                 databaseLimit: count
+            })
+        }
+        this.setSearch = (search) => {
+            this.setState({
+                search: search
             })
         }
     }
@@ -101,8 +109,6 @@ export default class Movies extends Component {
     // Handles adding new movies on form submission
     addMovieFormHandler(event) {
         event.preventDefault();
-        this.setMovieListHandler({ value: "All" });
-        this.selectedList = this.options[0];
         const data = new FormData(event.target);
         var movieID = data.get('movieID');
         // Only add the movie if it doesn't already exist
@@ -135,6 +141,8 @@ export default class Movies extends Component {
                         };
                         this.props.firebase.database().ref('lists/All/' + data.get('movieID')).set(newMovie);
                         this.updateMovieCount(1, 'All');
+                        this.setMovieListHandler({ value: "All" });
+                        this.selectedList = this.options[0];
                         this.addMovie(newMovie);
                     });
                 }
@@ -169,10 +177,10 @@ export default class Movies extends Component {
             this.props.firebase.database().ref('lists/All/' + movieID).remove();
             // Remove movie from the GUI
             this.removeMovie(movieID);
-            // Set the list selection back to 'all'.
-            this.setMovieListHandler({ value: "All" });
             this.updateMovieCount(-1, 'All');
-            // Select the list all?? TODO Delete
+            // // Set the list selection back to 'all'.
+            // this.setMovieListHandler({ value: "All" });
+            // // Select the list all
             // this.selectedList = this.options[0];
         });
     }
@@ -213,6 +221,8 @@ export default class Movies extends Component {
         // Only change the list if we're not already on that list
         if (this.selectedList.value !== movieList.value) {
             console.log("Setting active list to:", movieList.value);
+            // Clear the search
+            this.setSearch("")
             // Ensure the dropdown menu tracks the selected entry
             this.selectedList = movieList;
             // Clear out the list of movies to populate it with a new list
@@ -239,6 +249,7 @@ export default class Movies extends Component {
 
     // When typing in the search
     searchHandler(event) {
+        this.setSearch(event.target.value);
         if (event.target.value !== "") {
 
             var filtered = this.filterQuery(this.state.movies, ([movieID, Meta]) => {
@@ -279,7 +290,7 @@ export default class Movies extends Component {
                 </header>
                 <div className='w3-padding-large deep_gray w3-round-large'>
                     <div className='w3-dark-gray w3-round-large w3-padding w3-margin'>
-                        <input onChange={this.searchHandler} className='w3-group w3-white w3-input' type="text" placeholder="Search..." />
+                        <input value={this.state.search} onChange={this.searchHandler} className='w3-group w3-white w3-input' type="text" placeholder="Search..." />
                     </div>
                     <form className='w3-dark-gray w3-round-large w3-padding w3-margin' onSubmit={this.addMovieFormHandler.bind(this)}>
                         <input className='w3-half w3-margin-right' placeholder="Add Movie with IMDB ID" minLength="9" maxLength="9" type="text" name="movieID" required />
