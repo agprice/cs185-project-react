@@ -25,7 +25,7 @@ export default class Movies extends Component {
 
         this.addMovie = (movie) => {
             var movieList = this.state.movies;
-            movieList[movie.imdbID] = movie;
+            movieList[movie.meta.imdbID] = movie;
             this.setState({
                 movies: movieList,
                 displayedMovies: movieList
@@ -73,7 +73,7 @@ export default class Movies extends Component {
         snapshot.forEach((movieSnapshot) => {
             if (this.state.movies[movieSnapshot.key] == undefined) {
                 console.log("Updating movie list with movie:", movieSnapshot.key);
-                this.addMovie(movieSnapshot.child('meta').val());
+                this.addMovie(movieSnapshot.val());
             }
         })
     }
@@ -150,7 +150,7 @@ export default class Movies extends Component {
     addToListHandler(movieID, list) {
         console.log("List Selected:", movieID, list);
         // Add this movie to the list
-        this.props.firebase.database().ref('lists/' + list.value + '/' + movieID).set({ meta: this.state.movies[movieID] });
+        this.props.firebase.database().ref('lists/' + list.value + '/' + movieID).set(this.state.movies[movieID]);
         // Update the lists that this movie is a part of
         this.props.firebase.database().ref('lists/All/' + movieID + '/lists/' + list.value).set(true);
     }
@@ -174,18 +174,20 @@ export default class Movies extends Component {
         this.clearMovies();
         this.props.firebase.database().ref('lists/' + movieList.value).once('value').then((snapshot) => {
             snapshot.forEach((movieSnapshot) => {
-                if (this.state.movies[movieSnapshot.key] == undefined && movieSnapshot.key != 'active') {
+                if (this.state.movies[movieSnapshot.key] === undefined && movieSnapshot.key != 'active') {
                     console.log("Updating movie list with movie:", movieSnapshot.key);
-                    this.addMovie(movieSnapshot.child('meta').val());
+                    this.addMovie(movieSnapshot.val());
                 }
-            })
+            });
         });
     }
 
+    // helper for search
     filterQuery(obj, predicate) {
         return Object.fromEntries(Object.entries(obj).filter(predicate));
     }
 
+    // When typing in the search
     searchHandler(event) {
         if (event.target.value !== "") {
 
@@ -202,6 +204,7 @@ export default class Movies extends Component {
         }
     }
 
+    // Load more button
     incrementVisibleMovies() {
         this.databaseLimit += this.loadMoreAmount;
         if (this.selectedList.value === 'All') {
@@ -237,7 +240,7 @@ export default class Movies extends Component {
                 <Select value={this.selectedList} isSearchable={true} className='w3-group w3-white' name="MovieList" onChange={this.setMovieListHandler} options={this.options} />
                 <div className='w3-margin movie_grid'>
                     {Object.keys(this.state.displayedMovies).map((movieID, index) => (
-                        <ModalMovie handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].Poster} />
+                        <ModalMovie handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].meta.Poster} />
                     ))}
                 </div>
                 {this.selectedList?.value === 'All' ? <button onClick={this.incrementVisibleMovies} className="w3-dark-gray w3-padding w3-button w3-round-large w3-center">
