@@ -116,7 +116,7 @@ export default class Movies extends Component {
                 })
             })
         }
-
+        this.selectedList = this.options[0];
         event.target.reset();
     }
 
