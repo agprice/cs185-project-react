@@ -125,11 +125,11 @@ export default class Movies extends Component {
                 </header>
                 <form className='w3-container w3-padding w3-dark-gray w3-round-large' onSubmit={this.addMovieFormHandler.bind(this)}>
                     <input placeholder="Add Movie with IMDB ID" minLength="9" maxLength="9" className="w3-input" type="text" name="movieID" required />
-                    <input type="submit" value="Post Message" />
+                    <input type="submit" value="Add Movie" />
                 </form>
                 <form className='w3-container w3-padding w3-dark-gray w3-round-large' onSubmit={this.addListHandler.bind(this)}>
                     <input placeholder="Add new Movie List, letter and numbers only" pattern="[A-Za-z0-9 ]{1,50}" className="w3-input" type="text" name="listName" required />
-                    <input type="submit" value="Post Message" />
+                    <input type="submit" value="Add List" />
                 </form>
                 <div className='w3-margin movie_grid'>
                     {Object.keys(this.state.movies).map((movieID, index) => (
