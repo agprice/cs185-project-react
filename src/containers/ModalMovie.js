@@ -73,13 +73,15 @@ export default class ModalMovie extends Component {
                                     <h2 className="w3-left-align"><b>{this.props.movieJSON.meta.Title}</b></h2>
                                 </div>
                                 <div className="w3-row-padding">
-                                    <div className="w3-yellow w3-padding w3-cell w3-third w3-round-large">
+                                    <div className="w3-yellow w3-tag w3-padding w3-half w3-round-large">
                                         IMDB Score: {this.props.movieJSON.meta.Ratings[0].Value}
                                     </div>
-                                    <div className="w3-blue w3-padding w3-cell w3-third w3-round-large">
+                                    <div className="w3-blue w3-tag w3-padding w3-half w3-round-large">
                                         Metacritic: {this.props.movieJSON.meta.Ratings[2].Value}
                                     </div>
-                                    <button onClick={this.props.deleteHandler.bind(this, this.props.movieJSON.meta.imdbID)} className="w3-red w3-padding w3-third w3-cell w3-button w3-round-large w3-center">
+                                </div>
+                                <div className='w3-margin'>
+                                    <button onClick={this.props.deleteHandler.bind(this, this.props.movieJSON.meta.imdbID)} className="w3-red w3-tag w3-button w3-round-large">
                                         Delete Movie
                                     </button>
                                 </div>

@@ -25,6 +25,10 @@
   min-height: 100%;
 }
 
+.deep_gray {
+  background: #222;
+}
+
 .movie_grid {
   display: grid;
   grid-template-columns: 24% 24% 24% 24%;

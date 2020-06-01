@@ -221,21 +221,28 @@ export default class Movies extends Component {
             this.selectedList = this.options[0];
         }
         return (
-            <div className='w3-center w3-padding-large w3-container' id='main'>
+            <div className='w3-padding-large' id='main'>
                 <header className='w3-container w3-padding-32 w3-center w3-black' id='home'>
                     <h1 className='w3-jumbo'>Movies</h1>
                     <p>Legendary Movies of Great Quality</p>
                 </header>
-                <form className='w3-container w3-padding w3-dark-gray w3-round-large' onSubmit={this.addMovieFormHandler.bind(this)}>
-                    <input placeholder="Add Movie with IMDB ID" minLength="9" maxLength="9" className="w3-input" type="text" name="movieID" required />
-                    <input type="submit" value="Add Movie" />
-                </form>
-                <form className='w3-container w3-padding w3-dark-gray w3-round-large' onSubmit={this.addListHandler.bind(this)}>
-                    <input placeholder="Add new Movie List, letter and numbers only" pattern="[A-Za-z0-9 ]{1,50}" className="w3-input" type="text" name="listName" required />
-                    <input type="submit" value="Add List" />
-                </form>
-                <input onChange={this.searchHandler} className='w3-group w3-white w3-input' type="text" placeholder="Search..." />
-                <Select value={this.selectedList} isSearchable={true} className='w3-group w3-white' name="MovieList" onChange={this.setMovieListHandler} options={this.options} />
+                <div className='w3-padding-large deep_gray w3-round-large'>
+                    <div className='w3-dark-gray w3-round-large w3-padding w3-margin'>
+                        <input onChange={this.searchHandler} className='w3-group w3-white w3-input' type="text" placeholder="Search..." />
+                    </div>
+                    <form className='w3-dark-gray w3-round-large w3-padding w3-margin' onSubmit={this.addMovieFormHandler.bind(this)}>
+                        <input className='w3-half w3-margin-right' placeholder="Add Movie with IMDB ID" minLength="9" maxLength="9" type="text" name="movieID" required />
+                        <input type="submit" value="Add Movie" />
+                    </form>
+                    <form className='w3-dark-gray w3-round-large w3-padding w3-margin' onSubmit={this.addListHandler.bind(this)}>
+                        <input className='w3-half w3-margin-right' placeholder="Add new Movie List" pattern="[A-Za-z0-9 ]{1,50}" type="text" name="listName" required />
+                        <input type="submit" value="Add List" />
+                    </form>
+                    <div className='w3-margin'>
+                        <label>Select List</label>
+                        <Select value={this.selectedList} isSearchable={true} className='w3-group w3-white' name="MovieList" onChange={this.setMovieListHandler} options={this.options} />
+                    </div>
+                </div>
                 <div className='w3-margin movie_grid'>
                     {Object.keys(this.state.displayedMovies).map((movieID, index) => (
                         <ModalMovie firebase={this.props.firebase} handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].meta.Poster} />
