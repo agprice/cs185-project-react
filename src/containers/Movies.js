@@ -18,6 +18,7 @@ export default class Movies extends Component {
             this.setState({
                 movies: movieList
             })
+            console.log("movie state:", this.state.movies)
         }
         this.removeMovie = (movieID) => {
             var movieList = this.state.movies;
@@ -80,7 +81,8 @@ export default class Movies extends Component {
                     Language: response.data.Language,
                     Released: response.data.Released,
                     Rated: response.data.Rated,
-                    Type: response.data.Type
+                    Type: response.data.Type,
+                    imdbID: response.data.imdbID
                 }
                 // Push new movie into the database
                 this.props.firebase.database().ref('movies/' + data.get('movieID')).set({
