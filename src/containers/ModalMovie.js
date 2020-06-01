@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Select from 'react-select'
 
 export default class ModalMovie extends Component {
     state = { isOpen: false };
@@ -19,6 +20,15 @@ export default class ModalMovie extends Component {
         }
         event.stopPropagation();
     };
+
+    getOptions() {
+        console.log("Getting list options for movie modal")
+        const opts = [];
+        Object.keys(this.props.lists).forEach((key) => {
+            opts.push({ value: key, label: key });
+        })
+        return opts;
+    }
 
     render() {
         return (
@@ -51,6 +61,10 @@ export default class ModalMovie extends Component {
                                 </div>
                                 <div className="w3-margin w3-left-align">
                                     Directed by <b>{this.props.movieJSON.Director}</b>
+                                </div>
+                                <div onClick={this.stopPropogation} className="w3-margin w3-left-align">
+                                    Add to List:
+                                    <Select className='w3-group w3-white' name="public" onChange={this.props.handleListSelect.bind(this, this.props.movieJSON.imdbID)} options={this.getOptions()} />
                                 </div>
                             </div>
                         </div>
