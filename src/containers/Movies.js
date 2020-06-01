@@ -14,7 +14,7 @@ export default class Movies extends Component {
             displayedMovies: {}
         }
         this.deleteMovieHandler = this.deleteMovieHandler.bind(this);
-        this.listSelectHandler = this.listSelectHandler.bind(this);
+        this.listSelectHandler = this.addToListHandler.bind(this);
         this.setMovieListHandler = this.setMovieListHandler.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
         var selectedList;
@@ -40,7 +40,8 @@ export default class Movies extends Component {
         }
         this.clearMovies = () => {
             this.setState({
-                movies: {}
+                movies: {},
+                displayedMovies: {}
             })
         }
         this.setDisplayedMovies = (movies) => {
@@ -141,7 +142,7 @@ export default class Movies extends Component {
         event.target.reset();
     }
 
-    listSelectHandler(movieID, list) {
+    addToListHandler(movieID, list) {
         console.log("List Selected:", movieID, list);
         // Add this movie to the list
         this.props.firebase.database().ref('lists/' + list.value + '/' + movieID).set({ meta: this.state.movies[movieID] });
@@ -214,7 +215,7 @@ export default class Movies extends Component {
                 <Select value={this.selectedList} isSearchable={true} className='w3-group w3-white' name="MovieList" onChange={this.setMovieListHandler} options={this.options} />
                 <div className='w3-margin movie_grid'>
                     {Object.keys(this.state.displayedMovies).map((movieID, index) => (
-                        <ModalMovie handleListSelect={this.listSelectHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].Poster} />
+                        <ModalMovie handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].Poster} />
                     ))}
                 </div>
             </div>
