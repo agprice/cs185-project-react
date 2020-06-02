@@ -5,28 +5,10 @@ export default class ModalMovie extends Component {
     state = { isOpen: false };
     constructor() {
         super()
-        this.state = {
-            memberList: ''
-        }
         this.getOptions = this.getOptions.bind(this);
-    }
-    componentDidMount() {
-        // Grab a reference to movies, link updates to the updateMovieList function
-        var movieRef = this.props.firebase.database().ref('lists/All/' + this.props.movieJSON.meta.imdbID + '/lists');
-        movieRef.on('value', snapshot => {
-            this.getMoviesListsCallback(snapshot);
-        });
-    }
-
-    getMoviesListsCallback(snapshot) {
-        console.log("Setting the movie modal", snapshot.val(), this.props.movieJSON.meta.imdbID)
-        this.setState({
-            memberList: snapshot.val()
-        })
     }
 
     handleShowDialog = () => {
-        console.log("Modal has memberlist", this.state.memberList);
         this.setState({ isOpen: !this.state.isOpen });
         if (this.state.isOpen === false) {
             document.body.style.overflow = 'hidden';
@@ -47,9 +29,9 @@ export default class ModalMovie extends Component {
         const opts = [];
         if (this.props.lists != null) {
             let filtered = Object.keys(this.props.lists);
-            if (this.state.memberList !== null) {
-                console.log("This object has membership in lists", this.state.memberList)
-                filtered = Object.keys(this.props.lists).filter(x => !Object.keys(this.state.memberList).includes(x))
+            if (this.props.movieJSON.lists !== undefined) {
+                console.log("This object", this.props.movieJSON.meta.imdbID, "has membership in lists", this.props.movieJSON.lists)
+                filtered = Object.keys(this.props.lists).filter(x => !Object.keys(this.props.movieJSON.lists).includes(x))
             }
             filtered.forEach((key) => {
                 // Don't allow the user to add to the 'all' list

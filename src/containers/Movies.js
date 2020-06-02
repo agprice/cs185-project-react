@@ -80,7 +80,7 @@ export default class Movies extends Component {
         movieRef.on('value', snapshot => {
             this.updateMovieListCallback(snapshot);
             console.log("Current state", this.state.movies)
-            this.setDisplayedMovies(Object.fromEntries(Object.entries(this.state.movies).slice(0, this.state.databaseLimit)))
+            this.limitAndSetDisplayedMovies();
         });
         var listsRef = this.props.firebase.database().ref('lists/');
         listsRef.on('value', snapshot => {
@@ -90,6 +90,11 @@ export default class Movies extends Component {
             this.setMovieCount(snapshot.val())
             console.log("There are", this.state.movieCount, "movies in the database.")
         });
+    }
+
+    limitAndSetDisplayedMovies() {
+        this.setDisplayedMovies(Object.fromEntries(Object.entries(this.state.movies).slice(0, this.state.databaseLimit)))
+        this.searchFilter(this.state.search);
     }
 
     // Handles callbacks when the movies database elements are updated
@@ -191,9 +196,17 @@ export default class Movies extends Component {
         })
         event.target.reset();
     }
+
     // Adds a movie to a list
     addToListHandler(movieID, list) {
         console.log("List Selected:", movieID, list);
+        // Update the GUI object
+        let newMovieState = this.state.movies[movieID];
+        if (newMovieState.lists === undefined) {
+            newMovieState.lists = {}
+        }
+        newMovieState.lists[list.value] = true;
+        this.addMovie(newMovieState);
         // Add this movie to the list
         this.props.firebase.database().ref('lists/' + list.value + '/' + movieID).set(this.state.movies[movieID]);
         let countRef = this.props.firebase.database().ref('lists/' + list.value + '/count')
@@ -202,6 +215,15 @@ export default class Movies extends Component {
         });
         // Update the lists that this movie is a part of
         this.props.firebase.database().ref('lists/All/' + movieID + '/lists/' + list.value).set(true);
+        // Update every list, oof probably could have made the database better...
+        this.props.firebase.database().ref('lists/All/' + movieID + '/lists').once('value').then((snapshot) => {
+            snapshot.forEach(movieSnapshot => {
+                console.log("Adding to list at:", movieSnapshot.key);
+                // Delete the movie from all the lists
+                this.props.firebase.database().ref('lists/' + movieSnapshot.key + '/' + movieID + '/lists/' + list.value).set(true);
+            });
+        });
+
     }
 
     getOptions() {
@@ -239,7 +261,7 @@ export default class Movies extends Component {
                 this.props.firebase.database().ref('lists/' + movieList.value).on('value', snapshot => {
                     console.log("Callback when switching lists with", snapshot.val())
                     this.updateMovieListCallback(snapshot);
-                    this.setDisplayedMovies(Object.fromEntries(Object.entries(this.state.movies).slice(0, this.state.databaseLimit)))
+                    this.limitAndSetDisplayedMovies()
                 });
             });
         }
@@ -250,13 +272,12 @@ export default class Movies extends Component {
         return Object.fromEntries(Object.entries(obj).filter(predicate));
     }
 
-    // When typing in the search
-    searchHandler(event) {
-        this.setSearch(event.target.value);
-        if (event.target.value !== "") {
+    // Filter based on the given string
+    searchFilter(filterString) {
+        if (filterString !== "") {
 
             var filtered = this.filterQuery(this.state.movies, ([movieID, Meta]) => {
-                const filter = event.target.value.toLowerCase();
+                const filter = filterString.toLowerCase();
                 let result = Meta.meta.Title.toLowerCase().includes(filter)
                 return result;
             })
@@ -267,13 +288,19 @@ export default class Movies extends Component {
         }
     }
 
+    // When typing in the search
+    searchHandler(event) {
+        this.setSearch(event.target.value);
+        this.searchFilter(event.target.value);
+    }
+
     // Load more button
     incrementVisibleMovies() {
         let newDataBaseLimit = this.state.databaseLimit + this.loadMoreAmount;
         this.setDatabaseLimit(newDataBaseLimit);
         if (this.selectedList.value !== undefined) {
             console.log("Incrementing videos, new amount is:", this.state.databaseLimit);
-            this.setDisplayedMovies(Object.fromEntries(Object.entries(this.state.movies).slice(0, newDataBaseLimit)))
+            this.limitAndSetDisplayedMovies();
         }
     }
 
@@ -307,11 +334,9 @@ export default class Movies extends Component {
                 </div>
                 <div className='w3-margin movie_grid'>
                     {Object.keys(this.state.displayedMovies).map((movieID, index) => (
-                        <ModalMovie firebase={this.props.firebase} handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.movies[movieID]} src={this.state.movies[movieID].meta.Poster} />
+                        <ModalMovie handleListSelect={this.addToListHandler} lists={this.state.lists} deleteHandler={this.deleteMovieHandler} key={index} movieJSON={this.state.displayedMovies[movieID]} src={this.state.displayedMovies[movieID].meta.Poster} />
                     ))}
                 </div>
-                {this.state.movieCount},
-                {this.state.databaseLimit}
                 {this.state.movieCount > this.state.databaseLimit ?
                     (<button onClick={this.incrementVisibleMovies} className="w3-dark-gray w3-padding w3-button w3-round-large w3-center">
                         load more
