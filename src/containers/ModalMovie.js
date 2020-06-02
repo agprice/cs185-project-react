@@ -30,7 +30,7 @@ export default class ModalMovie extends Component {
         if (this.props.lists != null) {
             let filtered = Object.keys(this.props.lists);
             if (this.props.movieJSON.lists !== undefined) {
-                console.log("This object", this.props.movieJSON.meta.imdbID, "has membership in lists", this.props.movieJSON.lists)
+                // console.log("This object", this.props.movieJSON.meta.imdbID, "has membership in lists", this.props.movieJSON.lists)
                 filtered = Object.keys(this.props.lists).filter(x => !Object.keys(this.props.movieJSON.lists).includes(x))
             }
             filtered.forEach((key) => {

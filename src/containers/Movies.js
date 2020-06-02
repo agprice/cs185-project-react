@@ -80,7 +80,7 @@ export default class Movies extends Component {
         movieRef.on('value', snapshot => {
             this.updateMovieListCallback(snapshot);
             console.log("Current state", this.state.movies)
-            this.limitAndSetDisplayedMovies();
+            this.limitAndSetDisplayedMovies(this.state.databaseLimit);
         });
         var listsRef = this.props.firebase.database().ref('lists/');
         listsRef.on('value', snapshot => {
@@ -92,9 +92,8 @@ export default class Movies extends Component {
         });
     }
 
-    limitAndSetDisplayedMovies() {
-        this.setDisplayedMovies(Object.fromEntries(Object.entries(this.state.movies).slice(0, this.state.databaseLimit)))
-        this.searchFilter(this.state.search);
+    limitAndSetDisplayedMovies(limit) {
+        this.searchFilter(this.state.search, limit);
     }
 
     // Handles callbacks when the movies database elements are updated
@@ -261,7 +260,7 @@ export default class Movies extends Component {
                 this.props.firebase.database().ref('lists/' + movieList.value).on('value', snapshot => {
                     console.log("Callback when switching lists with", snapshot.val())
                     this.updateMovieListCallback(snapshot);
-                    this.limitAndSetDisplayedMovies()
+                    this.limitAndSetDisplayedMovies(this.state.databaseLimit)
                 });
             });
         }
@@ -273,7 +272,7 @@ export default class Movies extends Component {
     }
 
     // Filter based on the given string
-    searchFilter(filterString) {
+    searchFilter(filterString, limit) {
         if (filterString !== "") {
 
             var filtered = this.filterQuery(this.state.movies, ([movieID, Meta]) => {
@@ -284,14 +283,14 @@ export default class Movies extends Component {
             this.setDisplayedMovies(filtered);
         }
         else {
-            this.setDisplayedMovies(Object.fromEntries(Object.entries(this.state.movies).slice(0, this.state.databaseLimit)))
+            this.setDisplayedMovies(Object.fromEntries(Object.entries(this.state.movies).slice(0, limit)))
         }
     }
 
     // When typing in the search
     searchHandler(event) {
         this.setSearch(event.target.value);
-        this.searchFilter(event.target.value);
+        this.searchFilter(event.target.value, this.state.databaseLimit);
     }
 
     // Load more button
@@ -299,8 +298,8 @@ export default class Movies extends Component {
         let newDataBaseLimit = this.state.databaseLimit + this.loadMoreAmount;
         this.setDatabaseLimit(newDataBaseLimit);
         if (this.selectedList.value !== undefined) {
-            console.log("Incrementing videos, new amount is:", this.state.databaseLimit);
-            this.limitAndSetDisplayedMovies();
+            console.log("Incrementing videos, new amount is:", newDataBaseLimit);
+            this.limitAndSetDisplayedMovies(newDataBaseLimit);
         }
     }
 
