@@ -10,12 +10,13 @@ export default class ModalMovie extends Component {
 
     handleShowDialog = () => {
         this.setState({ isOpen: !this.state.isOpen });
-        if (this.state.isOpen === false) {
-            document.body.style.overflow = 'hidden';
-        }
-        else {
-            document.body.style.overflow = 'auto';
-        }
+        // This broke the scroll up button
+        // if (this.state.isOpen === false) {
+        //     document.body.style.overflow = 'hidden';
+        // }
+        // else {
+        //     document.body.style.overflow = 'auto';
+        // }
     };
     stopPropogation = (event) => {
         if (!event) {
