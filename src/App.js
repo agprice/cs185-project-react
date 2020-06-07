@@ -10,7 +10,7 @@ import Images from './components/Images';
 import Videos from './components/Videos';
 import GuestLog from './containers/GuestLog';
 import Movies from './containers/Movies';
-import Graph from './components/Graph';
+import Graph from './containers/Graph';
 import config from './config.js'
 
 // Setup the firebase reference as global
