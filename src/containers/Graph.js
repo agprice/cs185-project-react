@@ -4,29 +4,29 @@ var d3 = require("d3")
 
 export default class Graph extends Component {
 
-    data = {
-        nodes: [
-            {
-                name: "N1",
-                type: 'movie'
-            },
-            {
-                name: 'N2',
-                type: 'actor'
-            }
-        ],
-        links: [
-            {
-                source: 1,
-                target: 0,
-                value: 1
-            }
-        ]
-    }
     // data = {
-    //     nodes: {},
-    //     links: {}
+    //     nodes: [
+    //         {
+    //             name: "N1",
+    //             type: 'movie'
+    //         },
+    //         {
+    //             name: 'N2',
+    //             type: 'actor'
+    //         }
+    //     ],
+    //     links: [
+    //         {
+    //             source: 1,
+    //             target: 0,
+    //             value: 1
+    //         }
+    //     ]
     // }
+    data = {
+        nodes: [],
+        links: []
+    }
     // data = {
     //     nodes: [],
     //     links: []
@@ -113,20 +113,17 @@ export default class Graph extends Component {
     }
 
     async updateVisualization(snapshot) {
-        let index = 0;
         snapshot.forEach((movieSnapshot) => {
             if (movieSnapshot.key !== 'count') {
                 console.log("Moviekey", movieSnapshot.key, "MovieVal", movieSnapshot.val());
                 const snapshotMeta = movieSnapshot.val().meta;
                 console.log("meta", snapshotMeta);
-                const curMovieIndex = index;
                 const currentMovie = {
                     name: snapshotMeta.Title,
                     type: snapshotMeta.Type,
                     poster: snapshotMeta.Poster
                 };
-                this.data.nodes[index] = currentMovie;
-                index++;
+                this.data.nodes.push(currentMovie);
                 let actors = snapshotMeta.Actors.split(", ");
                 actors.map((actor) => {
                     let existingNode = this.data.nodes.filter((node) => node.name === actor)[0];
@@ -137,13 +134,11 @@ export default class Graph extends Component {
                             type: 'actor',
                             poster: null
                         };
-                        this.data.nodes[index] = existingNode;
-                        index++;
+                        this.data.nodes.push(existingNode);
                     }
                     this.data.links.push({
                         source: currentMovie,
-                        target: existingNode,
-                        value: 1
+                        target: existingNode
                     })
                 });
             }
