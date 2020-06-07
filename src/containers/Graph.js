@@ -27,17 +27,37 @@ export default class Graph extends Component {
         nodes: [],
         links: []
     }
+    constructor() {
+        super();
+        this.color = this.color.bind(this);
+    }
     // data = {
     //     nodes: [],
     //     links: []
     // }
 
     color(node) {
-        console.log("node:", node);
         if (node.type === "movie") {
-            return d3.color("red");
+            this.svgDefs.append("svg:pattern")
+                .attr("id", node.imdbID)
+                .attr("width", 1)
+                .attr("height", 1)
+                .append("svg:image")
+                .attr("xlink:href", node.poster)
+                .attr("width", 200)
+                // .attr("height", 466)
+                .attr("x", 0)
+                .attr("y", 0);
+            return "url(#" + node.imdbID + ")";
         }
         return d3.color("blue")
+    }
+
+    calcNodeSize(node) {
+        if (node.type === "movie") {
+            return 100;
+        }
+        return 50;
     }
 
     drag(simulation) {
@@ -65,6 +85,7 @@ export default class Graph extends Component {
     }
 
     chart(nodes, links) {
+
         const width = 1920;
         const height = 1080;
 
@@ -73,6 +94,8 @@ export default class Graph extends Component {
 
         const svg = d3.create('svg')
             .attr("viewBox", [0, 0, width, height]);
+        // Setup defs as global so a function can decide the fill type for nodes
+        this.svgDefs = svg.append('svg:defs');
 
         const link = svg.append("g")
             .attr("stroke", "#999")
@@ -86,14 +109,13 @@ export default class Graph extends Component {
             .force("link", d3.forceLink().links(links).id(d => { return d.index; }).distance(200))
             .force("charge", d3.forceManyBody())
             .force("center", d3.forceCenter(width / 2, height / 2));
-        console.log("object nodes", obj_nodes);
         const node = svg.append("g")
             .attr("stroke", "#fff")
             .attr("stroke-width", 1.5)
             .selectAll("circle")
             .data(obj_nodes)
             .join("circle")
-            .attr("r", 20)
+            .attr("r", this.calcNodeSize)
             .attr("fill", this.color)
             .call(this.drag(simulation));
 
@@ -115,19 +137,17 @@ export default class Graph extends Component {
     async updateVisualization(snapshot) {
         snapshot.forEach((movieSnapshot) => {
             if (movieSnapshot.key !== 'count') {
-                console.log("Moviekey", movieSnapshot.key, "MovieVal", movieSnapshot.val());
                 const snapshotMeta = movieSnapshot.val().meta;
-                console.log("meta", snapshotMeta);
                 const currentMovie = {
                     name: snapshotMeta.Title,
                     type: snapshotMeta.Type,
-                    poster: snapshotMeta.Poster
+                    poster: snapshotMeta.Poster,
+                    imdbID: snapshotMeta.imdbID
                 };
                 this.data.nodes.push(currentMovie);
                 let actors = snapshotMeta.Actors.split(", ");
                 actors.map((actor) => {
                     let existingNode = this.data.nodes.filter((node) => node.name === actor)[0];
-                    console.log("actor", existingNode);
                     if (existingNode === undefined) {
                         existingNode = {
                             name: actor,
