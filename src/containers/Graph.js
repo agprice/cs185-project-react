@@ -3,9 +3,12 @@ import { schemeDark2 } from 'd3';
 var d3 = require("d3")
 
 export default class Graph extends Component {
+
+    // This config sets the offset of the actor name tooltip
     tipConfig = {
         offset: 10
     }
+    // This contains the graph data
     data = {
         nodes: [],
         links: []
@@ -14,9 +17,10 @@ export default class Graph extends Component {
         super();
         this.color = this.color.bind(this);
     }
-
+    // Set the background color of the nodes
     color(node) {
         if (node.type === "movie") {
+            // Create a pattern for this movie
             this.svgDefs.append("svg:pattern")
                 .attr("id", node.imdbID)
                 .attr("width", 1)
@@ -24,7 +28,6 @@ export default class Graph extends Component {
                 .append("svg:image")
                 .attr("xlink:href", node.poster)
                 .attr("width", 200)
-                // .attr("height", 466)
                 .attr("x", 0)
                 .attr("y", 0);
             return "url(#" + node.imdbID + ")";
@@ -32,6 +35,7 @@ export default class Graph extends Component {
         return d3.color("blue")
     }
 
+    // Set the size of the nodes
     calcNodeSize(node) {
         if (node.type === "movie") {
             return 100;
@@ -39,6 +43,7 @@ export default class Graph extends Component {
         return 40;
     }
 
+    // Handle dragging the nodes
     drag(simulation, movieTip, tipConfig) {
         function dragStarted(d) {
             if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -64,12 +69,15 @@ export default class Graph extends Component {
             .on("end", dragended)
     }
 
+    // Create the SVG chart
     chart(nodes, links) {
+        // Set the size to the current window size
         const width = window.innerWidth;
         const height = window.innerHeight;
         console.log("width", width, "height:", height);
-        const obj_links = links //.map(d => Object.create(d));
-        const obj_nodes = nodes //.map(d => Object.create(d));
+        // Don't map these objects, or it will break the object mappings in the data
+        const obj_links = links; 
+        const obj_nodes = nodes;
 
         const svg = d3.create('svg')
             .attr("width", width)
@@ -91,6 +99,7 @@ export default class Graph extends Component {
             .force("charge", d3.forceManyBody().strength(-200))
             .force("center", d3.forceCenter(width / 2, height / 2));
 
+        // This floating DIV provides the tooltip popup
         let movieTip = d3.select("#main")
         .append("div")
             .style("visibility", "hidden")
@@ -98,7 +107,7 @@ export default class Graph extends Component {
             .style("pointer-events", "none")
             .attr("class", "w3-round-large w3-black w3-padding")
             .text("I'm a circle!");
-
+        
         const node = svg.append("g")
             .attr("stroke", "#fff")
             .attr("stroke-width", 1.5)
@@ -108,11 +117,12 @@ export default class Graph extends Component {
             .attr("r", this.calcNodeSize)
             .attr("fill", this.color)
             .call(this.drag(simulation, movieTip, this.tipConfig))
+            // Tooltip nicely pops up and follows the mouse relative to the node
             .on("mouseover", (d) => { if (d.type === 'actor') movieTip.style("visibility", "visible").text(d.name); })
             .on("mousemove", () => movieTip.style("top", (d3.event.y + this.tipConfig.offset) + "px").style("left", (d3.event.x + this.tipConfig.offset) + "px"))
             .on("mouseout", () => movieTip.style("visibility", "hidden"))
 
-
+        // On tick update the link positions, and node positions
         simulation.on("tick", () => {
             link
                 .attr("x1", d => d.source.x)
@@ -126,8 +136,8 @@ export default class Graph extends Component {
 
         return svg.node();
     }
-
-    async updateVisualization(snapshot) {
+    // Build the data for the graph
+    updateVisualization(snapshot) {
         snapshot.forEach((movieSnapshot) => {
             if (movieSnapshot.key !== 'count') {
                 const snapshotMeta = movieSnapshot.val().meta;
@@ -157,22 +167,24 @@ export default class Graph extends Component {
                 });
             }
         });
-        // console.log("nodes", this.data.nodes);
-        // console.log("links", this.data.links);
     }
 
     async componentDidMount() {
         const elem = document.getElementById('main')
+        // Connect to the firebase database
         var movieRef = this.props.firebase.database().ref('lists/GraphViz');
-        movieRef.on('value', async snapshot => {
-            await this.updateVisualization(snapshot);
+        movieRef.on('value', snapshot => {
+            // Build the data objects
+            this.updateVisualization(snapshot);
+            // Use the data objects to generate the graph
             elem.appendChild(this.chart(this.data.nodes, this.data.links));
         });
-        // Handle window resize by resizing the graph
+        // Handle window resize by resizing the graph. Prevent spamming with the timeout
         let resizeHandler;
         window.addEventListener("resize", () => {
             clearTimeout(resizeHandler);
             resizeHandler = setTimeout(() => {
+                // On window resize, rebuild the graph
                 while (elem.childElementCount > 0)
                     elem.removeChild(elem.firstChild)
                 console.log('Resizing SVG');
