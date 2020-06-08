@@ -66,12 +66,14 @@ export default class Graph extends Component {
 
     chart(nodes, links) {
         const width = window.innerWidth;
-        const height = window.innerHeight + 150;
+        const height = window.innerHeight;
         console.log("width", width, "height:", height);
         const obj_links = links //.map(d => Object.create(d));
         const obj_nodes = nodes //.map(d => Object.create(d));
 
         const svg = d3.create('svg')
+            .attr("width", width)
+            .attr("height", height)
             .attr("viewBox", [0, 0, width, height]);
         // Setup defs as global so a function can decide the fill type for nodes
         this.svgDefs = svg.append('svg:defs');
@@ -106,7 +108,9 @@ export default class Graph extends Component {
             .attr("r", this.calcNodeSize)
             .attr("fill", this.color)
             .call(this.drag(simulation, movieTip, this.tipConfig))
-            .on("mouseover", (d) => { if (d.type === 'actor') movieTip.style("visibility", "visible").text(d.name) })
+            .on("mouseover", (d) => {
+                if (d.type === 'actor') movieTip.style("visibility", "visible").text(d.name);
+            })
             .on("mousemove", () => movieTip.style("top", (d3.event.y + this.tipConfig.offset) + "px").style("left", (d3.event.x + this.tipConfig.offset) + "px"))
             .on("mouseout", () => movieTip.style("visibility", "hidden"))
 
@@ -170,7 +174,8 @@ export default class Graph extends Component {
         window.addEventListener("resize", () => {
             clearTimeout(resizeHandler);
             resizeHandler = setTimeout(() => {
-                elem.removeChild(elem.firstChild)
+                while (elem.childElementCount > 0)
+                    elem.removeChild(elem.firstChild)
                 console.log('Resizing SVG');
                 elem.appendChild(this.chart(this.data.nodes, this.data.links));
             }, 200)
