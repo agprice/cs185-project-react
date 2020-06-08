@@ -4,25 +4,6 @@ var d3 = require("d3")
 
 export default class Graph extends Component {
 
-    // data = {
-    //     nodes: [
-    //         {
-    //             name: "N1",
-    //             type: 'movie'
-    //         },
-    //         {
-    //             name: 'N2',
-    //             type: 'actor'
-    //         }
-    //     ],
-    //     links: [
-    //         {
-    //             source: 1,
-    //             target: 0,
-    //             value: 1
-    //         }
-    //     ]
-    // }
     data = {
         nodes: [],
         links: []
@@ -31,10 +12,6 @@ export default class Graph extends Component {
         super();
         this.color = this.color.bind(this);
     }
-    // data = {
-    //     nodes: [],
-    //     links: []
-    // }
 
     color(node) {
         if (node.type === "movie") {
@@ -85,9 +62,9 @@ export default class Graph extends Component {
     }
 
     chart(nodes, links) {
-        const width = 1920;
-        const height = 1080;
-
+        const width = window.innerWidth;
+        const height = window.innerHeight + 150;
+        console.log("width", width, "height:", height);
         const obj_links = links //.map(d => Object.create(d));
         const obj_nodes = nodes //.map(d => Object.create(d));
 
@@ -119,7 +96,7 @@ export default class Graph extends Component {
             .call(this.drag(simulation))
 
         node.append("title")
-        .text(d => d.name)
+            .text(d => d.name)
 
 
         simulation.on("tick", () => {
@@ -176,11 +153,21 @@ export default class Graph extends Component {
             await this.updateVisualization(snapshot);
             elem.appendChild(this.chart(this.data.nodes, this.data.links));
         });
+        // Handle window resize by resizing the graph
+        let resizeHandler;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeHandler);
+            resizeHandler = setTimeout(() => {
+                elem.removeChild(elem.firstChild)
+                console.log('removing SVG');
+                elem.appendChild(this.chart(this.data.nodes, this.data.links));
+            }, 200)
+        });
     }
 
     render() {
         return (
-            <div style={{ width: "1920px", height: "1080px" }} id='main'>
+            <div id='main'>
             </div>
         )
     }
