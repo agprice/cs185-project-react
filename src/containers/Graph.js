@@ -85,7 +85,6 @@ export default class Graph extends Component {
     }
 
     chart(nodes, links) {
-
         const width = 1920;
         const height = 1080;
 
@@ -117,7 +116,10 @@ export default class Graph extends Component {
             .join("circle")
             .attr("r", this.calcNodeSize)
             .attr("fill", this.color)
-            .call(this.drag(simulation));
+            .call(this.drag(simulation))
+
+        node.append("title")
+        .text(d => d.name)
 
 
         simulation.on("tick", () => {
@@ -163,8 +165,8 @@ export default class Graph extends Component {
                 });
             }
         });
-        console.log("nodes", this.data.nodes);
-        console.log("links", this.data.links);
+        // console.log("nodes", this.data.nodes);
+        // console.log("links", this.data.links);
     }
 
     async componentDidMount() {
