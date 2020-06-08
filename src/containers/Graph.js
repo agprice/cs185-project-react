@@ -55,7 +55,7 @@ export default class Graph extends Component {
         function dragended(d) {
             if (!d3.event.active) simulation.alphaTarget(0);
             d.fy = null;
-            d.fy = null;
+            d.fx = null;
         }
 
         return d3.drag()
@@ -84,17 +84,17 @@ export default class Graph extends Component {
             .selectAll("line")
             .data(obj_links)
             .join("line")
-            .attr("stroke-width", d => Math.sqrt(d.value))
+            .attr("stroke-width", (d) => d.thickness);
 
         const simulation = d3.forceSimulation(obj_nodes)
-            .force("link", d3.forceLink().links(links).id(d => { return d.index; }).distance(300))
-            .force("charge", d3.forceManyBody())
+            .force("link", d3.forceLink(links).distance(200))
+            .force("charge", d3.forceManyBody().strength(-200))
             .force("center", d3.forceCenter(width / 2, height / 2));
 
         let movieTip = d3.select("#main")
-            .append("div")
-            .style("position", "absolute")
+        .append("div")
             .style("visibility", "hidden")
+            .style("position", "absolute")
             .style("pointer-events", "none")
             .attr("class", "w3-round-large w3-black w3-padding")
             .text("I'm a circle!");
@@ -108,9 +108,7 @@ export default class Graph extends Component {
             .attr("r", this.calcNodeSize)
             .attr("fill", this.color)
             .call(this.drag(simulation, movieTip, this.tipConfig))
-            .on("mouseover", (d) => {
-                if (d.type === 'actor') movieTip.style("visibility", "visible").text(d.name);
-            })
+            .on("mouseover", (d) => { if (d.type === 'actor') movieTip.style("visibility", "visible").text(d.name); })
             .on("mousemove", () => movieTip.style("top", (d3.event.y + this.tipConfig.offset) + "px").style("left", (d3.event.x + this.tipConfig.offset) + "px"))
             .on("mouseout", () => movieTip.style("visibility", "hidden"))
 
@@ -152,8 +150,9 @@ export default class Graph extends Component {
                         this.data.nodes.push(existingNode);
                     }
                     this.data.links.push({
-                        source: currentMovie,
-                        target: existingNode
+                        source: existingNode,
+                        target: currentMovie,
+                        thickness: 5
                     })
                 });
             }
