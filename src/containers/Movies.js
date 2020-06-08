@@ -139,7 +139,8 @@ export default class Movies extends Component {
                             Released: response.data.Released,
                             Rated: response.data.Rated,
                             Type: response.data.Type,
-                            imdbID: response.data.imdbID
+                            imdbID: response.data.imdbID,
+                            Actors: response.data.Actors
                         }
                         // Push new movie into the database
                         let newMovie = {

@@ -10,6 +10,7 @@ import Images from './components/Images';
 import Videos from './components/Videos';
 import GuestLog from './containers/GuestLog';
 import Movies from './containers/Movies';
+import Graph from './containers/Graph';
 import config from './config.js'
 
 // Setup the firebase reference as global
@@ -67,6 +68,11 @@ export class App extends Component {
         component: Movies,
         title: 'Movies',
         icon: 'fa-film'
+      },
+      {
+        component: Graph,
+        title: 'Graph',
+        icon: 'fa-area-chart'
       },
     ]
     return (
