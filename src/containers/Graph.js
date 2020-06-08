@@ -3,7 +3,9 @@ import { schemeDark2 } from 'd3';
 var d3 = require("d3")
 
 export default class Graph extends Component {
-
+    tipConfig = {
+        offset: 10
+    }
     data = {
         nodes: [],
         links: []
@@ -34,10 +36,10 @@ export default class Graph extends Component {
         if (node.type === "movie") {
             return 100;
         }
-        return 50;
+        return 40;
     }
 
-    drag(simulation) {
+    drag(simulation, movieTip, tipConfig) {
         function dragStarted(d) {
             if (!d3.event.active) simulation.alphaTarget(0.3).restart();
             d.fx = d.x;
@@ -47,6 +49,7 @@ export default class Graph extends Component {
         function dragged(d) {
             d.fx = d3.event.x;
             d.fy = d3.event.y;
+            movieTip.style("top", (d3.event.sourceEvent.pageY + tipConfig.offset) + "px").style("left", (d3.event.sourceEvent.pageX + tipConfig.offset) + "px")
         }
 
         function dragended(d) {
@@ -82,9 +85,18 @@ export default class Graph extends Component {
             .attr("stroke-width", d => Math.sqrt(d.value))
 
         const simulation = d3.forceSimulation(obj_nodes)
-            .force("link", d3.forceLink().links(links).id(d => { return d.index; }).distance(200))
+            .force("link", d3.forceLink().links(links).id(d => { return d.index; }).distance(300))
             .force("charge", d3.forceManyBody())
             .force("center", d3.forceCenter(width / 2, height / 2));
+
+        let movieTip = d3.select("#main")
+            .append("div")
+            .style("position", "absolute")
+            .style("visibility", "hidden")
+            .style("pointer-events", "none")
+            .attr("class", "w3-round-large w3-black w3-padding")
+            .text("I'm a circle!");
+
         const node = svg.append("g")
             .attr("stroke", "#fff")
             .attr("stroke-width", 1.5)
@@ -93,10 +105,10 @@ export default class Graph extends Component {
             .join("circle")
             .attr("r", this.calcNodeSize)
             .attr("fill", this.color)
-            .call(this.drag(simulation))
-
-        node.append("title")
-            .text(d => d.name)
+            .call(this.drag(simulation, movieTip, this.tipConfig))
+            .on("mouseover", (d) => { if (d.type === 'actor') movieTip.style("visibility", "visible").text(d.name) })
+            .on("mousemove", () => movieTip.style("top", (d3.event.y + this.tipConfig.offset) + "px").style("left", (d3.event.x + this.tipConfig.offset) + "px"))
+            .on("mouseout", () => movieTip.style("visibility", "hidden"))
 
 
         simulation.on("tick", () => {
@@ -125,7 +137,7 @@ export default class Graph extends Component {
                 };
                 this.data.nodes.push(currentMovie);
                 let actors = snapshotMeta.Actors.split(", ");
-                actors.map((actor) => {
+                actors.forEach((actor) => {
                     let existingNode = this.data.nodes.filter((node) => node.name === actor)[0];
                     if (existingNode === undefined) {
                         existingNode = {
@@ -159,7 +171,7 @@ export default class Graph extends Component {
             clearTimeout(resizeHandler);
             resizeHandler = setTimeout(() => {
                 elem.removeChild(elem.firstChild)
-                console.log('removing SVG');
+                console.log('Resizing SVG');
                 elem.appendChild(this.chart(this.data.nodes, this.data.links));
             }, 200)
         });
